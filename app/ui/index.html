@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mac Initial Setup</title>
+<style>
+:root {
+  --bg: #f5f5f7; --panel: #ffffff; --panel-2: #fbfbfd; --line: #e3e3e8; --text: #1d1d1f; --muted: #6e6e73;
+  --accent: #0a84ff; --accent-soft: rgba(10,132,255,.10); --ok: #28a745; --fail: #e5484d; --warn: #c27c0e;
+  --shadow: 0 1px 2px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.04);
+  --radius: 12px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #18181a; --panel: #232326; --panel-2: #1d1d20; --line: #333338; --text: #f2f2f4; --muted: #9a9aa2;
+    --accent: #3b9bff; --accent-soft: rgba(59,155,255,.16); --ok: #3fbf62; --fail: #ff6369; --warn: #e3a33a;
+    --shadow: 0 1px 2px rgba(0,0,0,.3);
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 13px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  -webkit-user-select: none; user-select: none; overflow: hidden;
+}
+button { font: inherit; color: inherit; }
+input { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+.app { display: grid; grid-template-rows: auto 1fr auto; height: 100vh; }
+
+/* ---------- top bar ---------- */
+.top {
+  display: flex; align-items: center; gap: 14px; padding: 14px 20px;
+  background: var(--panel); border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand-mark {
+  width: 34px; height: 34px; border-radius: 9px; flex: none;
+  background: linear-gradient(135deg, #5ac8fa, #0a84ff 55%, #5e5ce6);
+  display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 17px;
+}
+.brand h1 { font-size: 15px; margin: 0; font-weight: 650; letter-spacing: -.01em; }
+.brand p { margin: 0; color: var(--muted); font-size: 12px; }
+.spacer { flex: 1; }
+.search {
+  width: 240px; max-width: 30vw; padding: 7px 10px 7px 30px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--panel-2) no-repeat 9px 50%/14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E");
+  outline: none;
+}
+.search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel-2); }
+.seg button { border: 0; background: none; padding: 6px 11px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button:hover { background: var(--accent-soft); }
+
+/* ---------- main area ---------- */
+.main { display: grid; grid-template-columns: 220px 1fr; min-height: 0; }
+.nav { overflow-y: auto; padding: 14px 10px; border-right: 1px solid var(--line); background: var(--panel-2); }
+.nav a {
+  display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 7px;
+  color: var(--text); text-decoration: none; cursor: pointer;
+}
+.nav a:hover { background: var(--accent-soft); }
+.nav a.active { background: var(--accent); color: #fff; }
+.nav a.active .count { color: rgba(255,255,255,.85); }
+.nav .emoji { width: 18px; text-align: center; }
+.nav .name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav .count { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
+
+.content { overflow-y: auto; padding: 8px 24px 40px; scroll-behavior: smooth; }
+.section { padding-top: 18px; }
+.section-head { display: flex; align-items: center; gap: 10px; margin: 6px 2px 10px; }
+.section-head h2 { font-size: 17px; margin: 0; font-weight: 650; letter-spacing: -.01em; }
+.section-head .count { color: var(--muted); font-size: 12px; }
+.section-head .spacer { flex: 1; }
+.link-btn { border: 0; background: none; color: var(--accent); cursor: pointer; padding: 4px 6px; border-radius: 6px; }
+.link-btn:hover { background: var(--accent-soft); }
+
+.settings { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-bottom: 10px; }
+.setting {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px;
+  box-shadow: var(--shadow);
+}
+.setting label { display: block; font-size: 11.5px; color: var(--muted); margin-bottom: 5px; }
+.setting input {
+  width: 100%; border: 1px solid var(--line); background: var(--panel-2); border-radius: 7px; padding: 6px 8px;
+  outline: none; -webkit-user-select: text; user-select: text;
+}
+.setting input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
+.card {
+  display: flex; align-items: center; gap: 11px; padding: 11px 12px; cursor: pointer;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+  transition: border-color .12s, background .12s, opacity .12s;
+}
+.card:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.card.off { opacity: .55; }
+.card.off:hover { opacity: .85; }
+.card.on { border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+.icon {
+  width: 34px; height: 34px; border-radius: 8px; flex: none; display: grid; place-items: center;
+  background: var(--panel-2); border: 1px solid var(--line); overflow: hidden; font-size: 17px;
+}
+.icon img { width: 22px; height: 22px; }
+.card .txt { flex: 1; min-width: 0; }
+.card .label { font-weight: 560; line-height: 1.25; }
+.card .desc { color: var(--muted); font-size: 11.5px; margin-top: 2px; line-height: 1.3; }
+.badge {
+  display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: .02em; padding: 1px 6px; border-radius: 99px;
+  background: color-mix(in srgb, var(--ok) 15%, transparent); color: var(--ok); margin-left: 6px; vertical-align: 1px;
+}
+.switch {
+  width: 34px; height: 20px; border-radius: 99px; background: color-mix(in srgb, var(--muted) 35%, transparent);
+  position: relative; flex: none; transition: background .15s;
+}
+.switch::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s;
+}
+.on > .switch, .switch.on { background: var(--accent); }
+.on > .switch::after, .switch.on::after { transform: translateX(14px); }
+.empty { color: var(--muted); padding: 40px; text-align: center; }
+
+/* ---------- bottom bar ---------- */
+.bottom {
+  display: flex; align-items: center; gap: 14px; padding: 12px 20px;
+  background: var(--panel); border-top: 1px solid var(--line);
+}
+.summary { color: var(--muted); }
+.summary b { color: var(--text); }
+.check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; color: var(--muted); }
+.primary {
+  border: 0; background: var(--accent); color: #fff; font-weight: 600; padding: 9px 18px; border-radius: 9px; cursor: pointer;
+}
+.primary:hover { filter: brightness(1.07); }
+.primary:disabled { opacity: .5; cursor: default; }
+.secondary {
+  border: 1px solid var(--line); background: var(--panel-2); padding: 8px 14px; border-radius: 9px; cursor: pointer;
+}
+.secondary:hover { background: var(--accent-soft); }
+
+/* ---------- progress ---------- */
+.progress-view { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; min-height: 0; }
+.steps { overflow-y: auto; border-right: 1px solid var(--line); padding: 14px 10px; background: var(--panel-2); }
+.steps h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 14px 10px 6px; }
+.step { display: flex; align-items: center; gap: 9px; padding: 5px 10px; border-radius: 7px; }
+.step .st { width: 16px; height: 16px; flex: none; display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+.step.pending { color: var(--muted); }
+.step.pending .st::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: color-mix(in srgb, var(--muted) 45%, transparent); }
+.step.running { background: var(--accent-soft); font-weight: 600; }
+.step.running .st::before {
+  content: ""; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--accent); border-right-color: transparent;
+  animation: spin .8s linear infinite;
+}
+.step.done .st { color: var(--ok); } .step.done .st::before { content: "✓"; }
+.step.fail .st { color: var(--fail); } .step.fail .st::before { content: "✕"; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.right { display: grid; grid-template-rows: auto auto 1fr; min-height: 0; padding: 16px 20px; gap: 12px; }
+.bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.bar > div { height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+.status-line { display: flex; align-items: baseline; gap: 10px; }
+.status-line h2 { margin: 0; font-size: 17px; }
+.status-line span { color: var(--muted); }
+.followups {
+  background: color-mix(in srgb, var(--warn) 10%, var(--panel)); border: 1px solid color-mix(in srgb, var(--warn) 35%, var(--line));
+  border-radius: var(--radius); padding: 10px 14px;
+}
+.followups b { display: block; margin-bottom: 4px; }
+.followups ul { margin: 0; padding-left: 18px; }
+.followups li { margin: 2px 0; -webkit-user-select: text; user-select: text; }
+.log {
+  margin: 0; overflow: auto; background: #111214; color: #d9d9de; border-radius: var(--radius); padding: 12px 14px;
+  font: 11.5px/1.5 ui-monospace, "SF Mono", Menlo, monospace; white-space: pre-wrap; word-break: break-word;
+  -webkit-user-select: text; user-select: text; min-height: 120px;
+}
+.log .h { color: #7cc4ff; font-weight: 700; }
+.log .ok { color: #6fdc8c; } .log .err { color: #ff8389; } .log .warn { color: #f0c36b; } .log .dim { color: #8b8b93; }
+
+/* ---------- modal ---------- */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.35); display: grid; place-items: center; z-index: 10;
+  animation: fade .12s ease-out;
+}
+@keyframes fade { from { opacity: 0; } }
+.modal {
+  width: min(520px, calc(100vw - 40px)); max-height: calc(100vh - 60px); overflow: auto;
+  background: var(--panel); border-radius: 14px; padding: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+.modal h3 { margin: 0 0 8px; font-size: 16px; }
+.modal p, .modal .msg { color: var(--muted); margin: 0 0 14px; white-space: pre-wrap; -webkit-user-select: text; user-select: text; }
+.modal .msg { color: var(--text); }
+.modal .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.modal input[type=password] {
+  width: 100%; padding: 9px 11px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel-2); outline: none;
+  -webkit-user-select: text; user-select: text;
+}
+.modal input[type=password]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.modal .error { color: var(--fail); margin-top: 8px; min-height: 1em; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.chip { background: var(--accent-soft); color: var(--accent); border-radius: 99px; padding: 3px 9px; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <div class="brand-mark">⌘</div>
+      <div><h1>Mac Initial Setup</h1><p id="subtitle">Loading…</p></div>
+    </div>
+    <div class="spacer"></div>
+    <input id="search" class="search" type="search" placeholder="Search apps and settings" autocomplete="off">
+    <div class="seg" id="bulk">
+      <button data-bulk="all">All</button><button data-bulk="none">None</button><button data-bulk="defaults">Defaults</button>
+    </div>
+  </header>
+
+  <main class="main" id="pick-view">
+    <nav class="nav" id="nav"></nav>
+    <div class="content" id="content"><div class="empty">Loading the catalog…</div></div>
+  </main>
+
+  <main class="progress-view" id="run-view" hidden>
+    <aside class="steps" id="steps"></aside>
+    <section class="right">
+      <div>
+        <div class="status-line"><h2 id="run-title">Installing…</h2><span id="run-count"></span></div>
+        <div class="bar" style="margin-top:10px"><div id="run-bar"></div></div>
+      </div>
+      <div class="followups" id="followups" hidden><b>Still to do by hand</b><ul id="followup-list"></ul></div>
+      <pre class="log" id="log"></pre>
+    </section>
+  </main>
+
+  <footer class="bottom">
+    <div class="summary" id="summary"></div>
+    <div class="spacer"></div>
+    <label class="check" id="dry-wrap" title="Show every command without changing anything">
+      <span class="switch" id="dry-switch"></span> Dry run
+    </label>
+    <button class="secondary" id="quit-btn" hidden>Quit</button>
+    <button class="primary" id="go" disabled>Install</button>
+  </footer>
+</div>
+
+<div class="overlay" id="overlay" hidden><div class="modal" id="modal"></div></div>
+
+<script>
+"use strict";
+const SECTION_EMOJI = {
+  "Core": "🍺", "Browsers": "🌐", "1Password": "🔐", "SSH": "🔑", "Communication": "💬", "Remote access": "🖥️",
+  "Productivity": "⚡️", "Editors": "📝", "Terminal tools": "⌨️", "Programming languages": "🧑‍💻", "Developer tools": "🛠️", "Finder": "🗂️", "Dock & desktop": "⚓️",
+  "Keyboard & trackpad": "⌨️", "Screenshots": "📸", "Safari": "🧭", "System & security": "🛡️",
+};
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const send = msg => window.ipc.postMessage(JSON.stringify(msg));
+
+const S = { sections: [], items: new Map(), settings: new Map(), dryRun: false, filter: "", phase: "pick" };
+
+window.fatal = msg => { $("#content").innerHTML = `<div class="empty">${esc(msg)}</div>`; };
+
+window.loadCatalog = data => {
+  S.dryRun = data.dryRun; S.user = data.user;
+  let sec = null;
+  for (const row of data.rows) {
+    if (row.kind === "section") {
+      sec = { title: row.title, items: [], settings: [] };
+      S.sections.push(sec);
+    } else if (row.kind === "item") {
+      const it = { ...row, sel: row.on, section: sec };
+      sec.items.push(it); S.items.set(it.id, it);
+    } else if (row.kind === "setting") {
+      const st = { ...row, section: sec };
+      sec.settings.push(st); S.settings.set(st.key, st);
+    }
+  }
+  $("#subtitle").textContent = `v${data.version} · pick what this Mac gets`;
+  $("#go").disabled = false;
+  renderPick();
+};
+
+/* ----------------------------- pick view ------------------------------ */
+function host(url) { try { return new URL(url).hostname; } catch { return ""; } }
+
+function iconHtml(it) {
+  const emoji = SECTION_EMOJI[it.section.title] || "•";
+  if (!it.url) return `<div class="icon">${emoji}</div>`;
+  const src = `https://icons.duckduckgo.com/ip3/${host(it.url)}.ico`;
+  return `<div class="icon"><img src="${esc(src)}" alt="" onerror="this.parentNode.textContent='${emoji}'"></div>`;
+}
+
+function matches(it) {
+  if (!S.filter) return true;
+  const q = S.filter.toLowerCase();
+  return (it.label + " " + it.desc + " " + it.id + " " + it.section.title).toLowerCase().includes(q);
+}
+
+function secCounts(sec) {
+  return [sec.items.filter(i => i.sel).length, sec.items.length];
+}
+
+function renderPick() {
+  const content = $("#content");
+  let html = "";
+  for (const [n, sec] of S.sections.entries()) {
+    const items = sec.items.filter(matches);
+    const settings = S.filter ? sec.settings.filter(s => (s.label + s.key).toLowerCase().includes(S.filter.toLowerCase())) : sec.settings;
+    if (!items.length && !settings.length) continue;
+    const [on, total] = secCounts(sec);
+    html += `<section class="section" id="sec-${n}">
+      <div class="section-head">
+        <h2>${SECTION_EMOJI[sec.title] || ""} ${esc(sec.title)}</h2><span class="count" data-sec-count="${n}">${on} of ${total}</span>
+        <div class="spacer"></div>
+        <button class="link-btn" data-sec-toggle="${n}">${on === total ? "Deselect all" : "Select all"}</button>
+      </div>`;
+    if (settings.length) {
+      html += `<div class="settings">` + settings.map(s => `
+        <div class="setting" title="${esc(s.desc)}">
+          <label for="set-${esc(s.key)}">${esc(s.label)}</label>
+          <input id="set-${esc(s.key)}" data-setting="${esc(s.key)}" value="${esc(s.value)}" placeholder="${esc(s.desc)}" spellcheck="false">
+        </div>`).join("") + `</div>`;
+    }
+    html += `<div class="grid">` + items.map(it => `
+      <div class="card ${it.sel ? "on" : "off"}" data-item="${esc(it.id)}" title="${esc(it.desc || it.label)}">
+        ${iconHtml(it)}
+        <div class="txt">
+          <div class="label">${esc(it.label)}${it.installed ? '<span class="badge">INSTALLED</span>' : ""}</div>
+          ${it.desc ? `<div class="desc">${esc(it.desc)}</div>` : ""}
+        </div>
+        <div class="switch"></div>
+      </div>`).join("") + `</div></section>`;
+  }
+  content.innerHTML = html || `<div class="empty">Nothing matches “${esc(S.filter)}”.</div>`;
+  renderNav(); renderSummary();
+}
+
+function renderNav() {
+  $("#nav").innerHTML = S.sections.map((sec, n) => {
+    const [on, total] = secCounts(sec);
+    return `<a data-nav="${n}"><span class="emoji">${SECTION_EMOJI[sec.title] || "•"}</span>
+      <span class="name">${esc(sec.title)}</span><span class="count">${on}/${total}</span></a>`;
+  }).join("");
+}
+
+function renderSummary() {
+  const sel = [...S.items.values()].filter(i => i.sel).length;
+  $("#summary").innerHTML = `<b>${sel}</b> of ${S.items.size} selected`;
+  $("#go").textContent = S.dryRun ? `Preview ${sel} items` : `Install ${sel} items`;
+  $("#go").disabled = sel === 0;
+  $("#dry-switch").classList.toggle("on", S.dryRun);
+}
+
+function refreshCard(it) {
+  const card = document.querySelector(`[data-item="${CSS.escape(it.id)}"]`);
+  if (card) { card.classList.toggle("on", it.sel); card.classList.toggle("off", !it.sel); }
+}
+
+function refreshCounts() {
+  S.sections.forEach((sec, n) => {
+    const el = document.querySelector(`[data-sec-count="${n}"]`);
+    const [on, total] = secCounts(sec);
+    if (el) {
+      el.textContent = `${on} of ${total}`;
+      const btn = document.querySelector(`[data-sec-toggle="${n}"]`);
+      if (btn) btn.textContent = on === total ? "Deselect all" : "Select all";
+    }
+  });
+  renderNav(); renderSummary();
+}
+
+document.addEventListener("click", e => {
+  const card = e.target.closest("[data-item]");
+  if (card && S.phase === "pick") {
+    const it = S.items.get(card.dataset.item);
+    it.sel = !it.sel; refreshCard(it); refreshCounts(); return;
+  }
+  const tog = e.target.closest("[data-sec-toggle]");
+  if (tog) {
+    const sec = S.sections[+tog.dataset.secToggle];
+    const [on, total] = secCounts(sec);
+    sec.items.forEach(i => { i.sel = on !== total; refreshCard(i); });
+    refreshCounts(); return;
+  }
+  const nav = e.target.closest("[data-nav]");
+  if (nav) {
+    if (S.filter) { S.filter = ""; $("#search").value = ""; renderPick(); }
+    document.getElementById(`sec-${nav.dataset.nav}`)?.scrollIntoView();
+    return;
+  }
+  const bulk = e.target.closest("[data-bulk]");
+  if (bulk && S.phase === "pick") {
+    for (const it of S.items.values()) it.sel = bulk.dataset.bulk === "all" ? true : bulk.dataset.bulk === "none" ? false : it.on;
+    renderPick();
+  }
+});
+
+document.addEventListener("input", e => {
+  if (e.target.dataset.setting) S.settings.get(e.target.dataset.setting).value = e.target.value;
+  if (e.target.id === "search") { S.filter = e.target.value.trim(); renderPick(); }
+});
+
+$("#content").addEventListener("scroll", () => {
+  let current = 0;
+  document.querySelectorAll(".section").forEach(s => {
+    if (s.offsetTop - $("#content").scrollTop < 80) current = +s.id.slice(4);
+  });
+  document.querySelectorAll("[data-nav]").forEach(a => a.classList.toggle("active", +a.dataset.nav === current));
+});
+
+$("#dry-wrap").addEventListener("click", () => { if (S.phase === "pick") { S.dryRun = !S.dryRun; renderSummary(); } });
+
+/* ----------------------------- modal ---------------------------------- */
+function modal(html, onReady) {
+  $("#modal").innerHTML = html; $("#overlay").hidden = false;
+  onReady && onReady($("#modal"));
+}
+function closeModal() { $("#overlay").hidden = true; $("#modal").innerHTML = ""; }
+
+$("#go").addEventListener("click", () => {
+  if (S.phase === "done") { backToPick(); return; }
+  const chosen = [...S.items.values()].filter(i => i.sel);
+  const perSection = S.sections.map(sec => [sec.title, sec.items.filter(i => i.sel).length]).filter(([, n]) => n);
+  modal(`
+    <h3>${S.dryRun ? "Preview" : "Install"} ${chosen.length} items?</h3>
+    <div class="chips">${perSection.map(([t, n]) => `<span class="chip">${esc(t)} · ${n}</span>`).join("")}</div>
+    ${S.dryRun
+      ? `<p>Dry run: every command is shown, nothing on this Mac is changed.</p>`
+      : `<p>Your Mac password is needed for system changes (Homebrew, firewall, Touch ID for sudo). It is only kept in memory and in a private temporary file for the duration of the install.</p>
+         <input type="password" id="pw" placeholder="Password for ${esc(S.user || "your account")}" autofocus>`}
+    <div class="error" id="pw-error"></div>
+    <div class="actions"><button class="secondary" id="m-cancel">Cancel</button><button class="primary" id="m-start">Start</button></div>`,
+    m => {
+      const pw = $("#pw", m);
+      pw && setTimeout(() => pw.focus(), 30);
+      $("#m-cancel", m).onclick = closeModal;
+      const go = () => {
+        const password = pw ? pw.value : "";
+        if (pw && !password) { $("#pw-error").textContent = "Enter your password."; return; }
+        $("#m-start", m).disabled = true; $("#m-start", m).textContent = "Starting…";
+        const settings = {};
+        for (const [k, s] of S.settings) settings[k] = s.value;
+        send({ cmd: "start", ids: chosen.map(i => i.id), settings, password, dryRun: S.dryRun });
+      };
+      $("#m-start", m).onclick = go;
+      pw && pw.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+    });
+});
+
+window.startFailed = msg => {
+  const err = $("#pw-error"), btn = $("#m-start");
+  if (err) err.textContent = msg;
+  if (btn) { btn.disabled = false; btn.textContent = "Start"; }
+};
+
+/* ----------------------------- run view ------------------------------- */
+const R = { order: [], done: 0, failed: 0, follow: [] };
+
+window.started = () => {
+  closeModal();
+  S.phase = "run";
+  $("#pick-view").hidden = true; $("#run-view").hidden = false;
+  $("#search").disabled = true; $("#bulk").hidden = true; $("#dry-wrap").hidden = true;
+  $("#go").disabled = true; $("#go").textContent = "Working…";
+  R.order = [...S.items.values()].filter(i => i.sel);
+  let html = "", last = null;
+  for (const it of R.order) {
+    if (it.section !== last) { html += `<h3>${esc(it.section.title)}</h3>`; last = it.section; }
+    html += `<div class="step pending" data-step="${esc(it.id)}"><span class="st"></span><span>${esc(it.label)}</span></div>`;
+  }
+  $("#steps").innerHTML = html;
+  $("#run-title").textContent = S.dryRun ? "Previewing…" : "Installing…";
+  updateProgress();
+};
+
+function setStep(id, cls) {
+  const el = document.querySelector(`[data-step="${CSS.escape(id)}"]`);
+  if (!el) return;
+  el.className = `step ${cls}`;
+  if (cls === "running") el.scrollIntoView({ block: "nearest" });
+}
+
+function updateProgress() {
+  const total = R.order.length, n = R.done + R.failed;
+  $("#run-bar").style.width = `${total ? (n / total) * 100 : 0}%`;
+  $("#run-count").textContent = `${n} of ${total}` + (R.failed ? ` · ${R.failed} failed` : "");
+}
+
+function logLine(text) {
+  const log = $("#log");
+  const stick = log.scrollTop + log.clientHeight >= log.scrollHeight - 30;
+  let cls = "";
+  if (/^== .* ==$/.test(text)) cls = "h";
+  else if (text.startsWith("✓")) cls = "ok";
+  else if (text.startsWith("✗") || /^Error/i.test(text)) cls = "err";
+  else if (text.startsWith("!")) cls = "warn";
+  else if (/^\s+\[dry-run\]/.test(text)) cls = "dim";
+  const span = document.createElement("span");
+  if (cls) span.className = cls;
+  span.textContent = text + "\n";
+  log.appendChild(span);
+  if (log.childNodes.length > 4000) log.removeChild(log.firstChild);
+  if (stick) log.scrollTop = log.scrollHeight;
+}
+
+window.engineLine = line => {
+  const m = line.match(/^::([a-z-]+)::(.*)$/);
+  if (!m) return logLine(line);
+  const [, ev, payload] = m;
+  switch (ev) {
+    case "item-start": setStep(payload, "running"); break;
+    case "item-done": setStep(payload, "done"); R.done++; updateProgress(); break;
+    case "item-fail": setStep(payload, "fail"); R.failed++; updateProgress(); break;
+    case "follow-up":
+      R.follow.push(payload); $("#followups").hidden = false;
+      $("#followup-list").insertAdjacentHTML("beforeend", `<li>${esc(payload)}</li>`); break;
+    case "ask": {
+      const [def, yes, no, ...rest] = payload.split("::");
+      const q = rest.join("::").replace(/\\n/g, "\n");
+      modal(`<h3>${q.includes("\n") ? "Action needed" : "Question"}</h3><div class="msg">${esc(q)}</div>
+        <div class="actions"><button class="${def === "y" ? "secondary" : "primary"}" id="a-no">${esc(no)}</button>
+        <button class="${def === "y" ? "primary" : "secondary"}" id="a-yes">${esc(yes)}</button></div>`, m => {
+        $("#a-no", m).onclick = () => { closeModal(); send({ cmd: "answer", value: "n" }); };
+        $("#a-yes", m).onclick = () => { closeModal(); send({ cmd: "answer", value: "y" }); };
+      });
+      break;
+    }
+    case "pause":
+      modal(`<h3>Action needed</h3><div class="msg">${esc(payload.replace(/\\n/g, "\n"))}</div>
+        <div class="actions"><button class="primary" id="p-ok">Continue</button></div>`, m => {
+        $("#p-ok", m).onclick = () => { closeModal(); send({ cmd: "answer", value: "" }); };
+      });
+      break;
+    case "finished": break;
+  }
+};
+
+window.engineExit = code => {
+  S.phase = "done";
+  closeModal();
+  document.querySelectorAll(".step.running").forEach(el => el.className = "step fail");
+  const ok = code === 0 && R.failed === 0;
+  $("#run-title").textContent = code !== 0 && R.done + R.failed === 0
+    ? "Setup stopped"
+    : ok ? (S.dryRun ? "Preview finished" : "All done 🎉") : "Finished with problems";
+  $("#run-bar").style.width = "100%";
+  if (!ok) $("#run-bar").style.background = "var(--warn)";
+  $("#go").disabled = false; $("#go").textContent = "Back to checklist";
+  $("#quit-btn").hidden = false;
+  if (!S.dryRun) logLine("\nTip: log out and back in so trackpad, scrolling and keyboard changes take effect.");
+};
+
+function backToPick() {
+  Object.assign(R, { order: [], done: 0, failed: 0, follow: [] });
+  $("#log").textContent = ""; $("#followup-list").innerHTML = ""; $("#followups").hidden = true;
+  $("#run-bar").style.background = "";
+  $("#run-view").hidden = true; $("#pick-view").hidden = false;
+  $("#search").disabled = false; $("#bulk").hidden = false; $("#dry-wrap").hidden = false; $("#quit-btn").hidden = true;
+  S.phase = "pick"; renderPick();
+}
+
+$("#quit-btn").addEventListener("click", () => send({ cmd: "quit" }));
+
+send({ cmd: "catalog" });
+</script>
+</body>
+</html>

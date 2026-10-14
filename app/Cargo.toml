@@ -1,0 +1,18 @@
+[package]
+name = "mac-setup"
+version = "0.2.0"
+description = "Set up a new Mac with your apps and settings"
+license = "MIT"
+edition = "2024"
+
+[dependencies]
+serde_json = "1.0.154"
+tao = "0.37.1"
+wry = "0.57.0"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
