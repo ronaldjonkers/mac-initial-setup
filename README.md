@@ -58,6 +58,7 @@ Items marked ○ are off by default.
 - **Remote access**: Jump Desktop, Jump Desktop Connect, Termius, Windows App
 - **Productivity**: TextSniper, [SpanWise](https://spanwise.pro), [MoreDisplays](https://moredisplays.com), [ClipLedger](https://clipledger.app) (latest release from their update feeds; SpanWise and ClipLedger are started right away and open at login), [AppCleaner](https://freemacsoft.net/appcleaner/), ○ Raycast, ○ Maccy, ○ Stats, ○ AdGuard Mini, ○ Logi Options+
 - **Editors**: TextMate as the default app for text and code files (txt, md, json, php, html, css, js and about 50 more, without a confirmation dialog per type) and the `mate` command; ○ VS Code
+- **AI apps**: ChatGPT, Claude and Kimi desktop apps
 - **Terminal tools**: git, gh, wget, telnet, jq, ripgrep, tree, htop, btop, fd, nmap, iperf3, HTTPie, watch, ffmpeg, `locate` (index built right away), [Mole](https://github.com/tw93/mole); ○ mtr, yq, fzf, bat, tldr, tmux, ImageMagick (`netstat` and `nc` come with macOS)
 - **Programming languages**: PHP (latest, ○ 8.4, 8.3, 8.2 side by side), Composer, Node.js, uv (Python), Go, Rust, MySQL client, PostgreSQL client, SQLite; ○ pnpm, Bun, Deno, Ruby, Redis
 - **Developer tools**: git config, Claude Code, Codex CLI, Kimi CLI, Sequel Ace, Xcode, TestFlight; ○ SQLPro for Postgres, OrbStack, Ghostty, iTerm2

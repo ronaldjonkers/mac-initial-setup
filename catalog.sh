@@ -62,6 +62,11 @@ item textmate-cli      on  "'mate' command in the terminal" "textmate_cli" "" "h
 item textmate-editor   off "TextMate as \$EDITOR (git commits etc.)" "textmate_editor" "" "https://macromates.com"
 item vscode            off "Visual Studio Code" "cask visual-studio-code 'Visual Studio Code'" "" "https://code.visualstudio.com"
 
+section "AI apps"
+item chatgpt           on  "ChatGPT"            "cask chatgpt ChatGPT" "Desktop app from OpenAI" "https://chatgpt.com"
+item claude-desktop    on  "Claude"             "cask claude Claude" "Desktop app from Anthropic" "https://claude.ai"
+item kimi-desktop      on  "Kimi"               "cask kimi Kimi" "Desktop app from Moonshot AI" "https://kimi.com"
+
 section "Terminal tools"
 item git               on  "git"                "formula git" "Newer than the one in Xcode's tools" "https://git-scm.com"
 item gh                on  "GitHub CLI (gh)"    "formula gh" "" "https://cli.github.com"
