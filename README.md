@@ -57,7 +57,7 @@ Items marked ○ are off by default.
 - **Communication**: WhatsApp, Telegram
 - **Remote access**: Jump Desktop, Jump Desktop Connect, Termius, Windows App
 - **Productivity**: TextSniper, [SpanWise](https://spanwise.pro), [MoreDisplays](https://moredisplays.com), [ClipLedger](https://clipledger.app) (latest release from their update feeds; SpanWise and ClipLedger are started right away and open at login), [AppCleaner](https://freemacsoft.net/appcleaner/), ○ Raycast, ○ Maccy, ○ Stats, ○ AdGuard Mini, ○ Logi Options+
-- **Editors**: TextMate as the default app for text and code files (txt, md, json, php, html, css, js and about 50 more, without a confirmation dialog per type) and the `mate` command; ○ VS Code
+- **Editors**: TextMate as the default app for text and code files (txt, md, json, php, html, css, js and about 30 more, without a confirmation dialog per type; active after you log out and back in) and the `mate` command; ○ VS Code
 - **AI apps**: ChatGPT, Claude and Kimi desktop apps
 - **Terminal tools**: git, gh, wget, telnet, jq, ripgrep, tree, htop, btop, fd, nmap, iperf3, HTTPie, watch, ffmpeg, `locate` (index built right away), [Mole](https://github.com/tw93/mole); ○ mtr, yq, fzf, bat, tldr, tmux, ImageMagick (`netstat` and `nc` come with macOS)
 - **Programming languages**: PHP (latest, ○ 8.4, 8.3, 8.2 side by side), Composer, Node.js, uv (Python), Go, Rust, MySQL client, PostgreSQL client, SQLite; ○ pnpm, Bun, Deno, Ruby, Redis
@@ -107,7 +107,7 @@ Everything lives in [`catalog.sh`](catalog.sh). Fork the repo, switch items `on`
 item my-app on "My App" "cask my-app 'My App'" "Short description" "https://my-app.com"   # website = icon
 ```
 
-Actions are plain shell commands. The available helpers are `cask`, `formula`, `appstore <id> <name>`, `sparkle_app <name> <appcast>` and `dw` (`defaults write`), and you can write your own functions in `modules/`.
+Actions are plain shell commands. The available helpers are `cask`, `formula`, `appstore <id> <name>`, `sparkle_app <name> <appcast>` and `dw` (`defaults write`), and you can write your own functions in `modules/`. Items run in the order of the catalog; `run_last <id>` moves an item to the very end of the run (used for the default-apps step, which should only run once every app is installed).
 
 ## Notes
 

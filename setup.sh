@@ -89,23 +89,28 @@ if [ "$DRY_RUN" = 0 ]; then
 fi
 
 DONE=() FAILED=()
+run_item() {
+  info "${C_BOLD}${I_LABEL[$1]}${C_RESET}"
+  gui_event item-start "${I_ID[$1]}"
+  if eval "${I_ACTION[$1]}"; then
+    DONE+=("${I_ID[$1]}")
+    gui_event item-done "${I_ID[$1]}"
+  else
+    err "Failed: ${I_LABEL[$1]}"
+    FAILED+=("${I_ID[$1]}")
+    gui_event item-fail "${I_ID[$1]}"
+  fi
+}
+
 current_section=-1
 for i in "${!I_ID[@]}"; do
   [ "${I_SEL[i]}" = 1 ] || continue
+  is_last "${I_ID[i]}" && continue
   if [ "${I_SEC[i]}" != "$current_section" ]; then
     current_section=${I_SEC[i]}
     heading "${H_LABEL[current_section]}"
   fi
-  info "${C_BOLD}${I_LABEL[i]}${C_RESET}"
-  gui_event item-start "${I_ID[i]}"
-  if eval "${I_ACTION[i]}"; then
-    DONE+=("${I_ID[i]}")
-    gui_event item-done "${I_ID[i]}"
-  else
-    err "Failed: ${I_LABEL[i]}"
-    FAILED+=("${I_ID[i]}")
-    gui_event item-fail "${I_ID[i]}"
-  fi
+  run_item "$i"
 done
 
 # Settings that act on their own when filled in.
@@ -114,6 +119,14 @@ sys_computer_name
 
 write_zshrc_block
 restart_ui
+
+# Steps that change system-wide registries go last, when nothing is being installed anymore.
+current_section=-1
+for i in "${!I_ID[@]}"; do
+  [ "${I_SEL[i]}" = 1 ] && is_last "${I_ID[i]}" || continue
+  [ "$current_section" = -1 ] && { heading "Finishing up"; current_section=0; }
+  run_item "$i"
+done
 
 heading "Summary"
 ok "${#DONE[@]} items done"

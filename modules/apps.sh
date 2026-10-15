@@ -7,16 +7,17 @@ TEXTMATE_UTIS="public.plain-text public.source-code public.script public.shell-s
 # Never hand these to a text editor: images, and .ts which macOS knows as MPEG video.
 TEXTMATE_SKIP="public.svg-image public.mpeg-2-transport-stream"
 
-LS_PLIST="$HOME/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure.plist"
+LS_DOMAIN="com.apple.LaunchServices/com.apple.launchservices.secure"
 
-# Print the UTI of each file extension that is a text type (or unknown to macOS, like .tsx).
+# Print the UTI of each file extension that is a text type. Extensions macOS doesn't know (dyn.*
+# types, like .tsx or .vue) are left out: LaunchServices throws those entries away anyway.
 text_utis() {
   osascript -l JavaScript -e '
     ObjC.import("CoreServices");
     function run(argv) {
       return argv.map(e => {
         const id = ObjC.castRefToObject($.UTTypeCreatePreferredIdentifierForTag($.kUTTagClassFilenameExtension, $(e), null)).js;
-        return (id.startsWith("dyn.") || $.UTTypeConformsTo($(id), $("public.text"))) ? id : "";
+        return (!id.startsWith("dyn.") && $.UTTypeConformsTo($(id), $("public.text"))) ? id : "";
       }).filter(Boolean).join("\n");
     }' "$@"
 }
@@ -27,51 +28,82 @@ default_browser() {
     $.NSWorkspace.sharedWorkspace.URLForApplicationToOpenURL($.NSURL.URLWithString("https://example.com")).path.js' 2>/dev/null
 }
 
-# ls_set_handlers <bundle id> <uti>…: make an app the default for these types by writing the
-# LaunchServices preferences directly. The official API (used by duti) makes macOS ask for
-# confirmation once per type, and on recent macOS setting public.html also changes the browser.
-ls_set_handlers() {
-  local id=$1 pb=/usr/libexec/PlistBuddy f=$LS_PLIST i=0 t uti
-  shift
-  if [ "$DRY_RUN" = 1 ]; then run "$pb" "$f" "# $id ← $*"; return 0; fi
-  mkdir -p "$(dirname "$f")"
-  "$pb" -c "Print :LSHandlers" "$f" >/dev/null 2>&1 || "$pb" -c "Add :LSHandlers array" "$f" >/dev/null || return 1
-  cp "$f" "$f.backup-$(date +%Y%m%d-%H%M%S)"
-  while "$pb" -c "Print :LSHandlers:$i" "$f" >/dev/null 2>&1; do i=$((i + 1)); done
-  # Remove the old entries for these types (from the end, so the indexes stay valid)…
-  while [ $i -gt 0 ]; do
+# The default-app list (LSHandlers) is edited on a copy, exported from and imported back into the
+# preferences system with `defaults`, and picked up by LaunchServices at the next login. The
+# official API (used by duti) makes macOS ask for confirmation once per type, and setting
+# public.html that way also changes the web browser.
+# Never write LaunchServices' plist file directly and never kill lsd: on a fresh Mac, lsd is
+# busy registering all the newly installed apps, and that combination froze the whole Mac.
+ls_handler_count() { local i=0; while /usr/libexec/PlistBuddy -c "Print :LSHandlers:$i" "$1" >/dev/null 2>&1; do i=$((i + 1)); done; echo $i; }
+
+# ls_drop_handlers <copy> <bundle id or "*"> <type or URL scheme>…: remove those entries; prints how many.
+ls_drop_handlers() {
+  local f=$1 id=$2 pb=/usr/libexec/PlistBuddy i t n=0
+  shift 2
+  i=$(ls_handler_count "$f")
+  while [ "$i" -gt 0 ]; do   # from the end, so the indexes stay valid
     i=$((i - 1))
-    t=$("$pb" -c "Print :LSHandlers:$i:LSHandlerContentType" "$f" 2>/dev/null) || continue
-    case " $* " in *" $t "*) "$pb" -c "Delete :LSHandlers:$i" "$f" || return 1 ;; esac
+    if [ "$id" != "*" ]; then
+      [ "$("$pb" -c "Print :LSHandlers:$i:LSHandlerRoleAll" "$f" 2>/dev/null | tr '[:upper:]' '[:lower:]')" = "$id" ] || continue
+    fi
+    t=$("$pb" -c "Print :LSHandlers:$i:LSHandlerContentType" "$f" 2>/dev/null) \
+      || t=$("$pb" -c "Print :LSHandlers:$i:LSHandlerURLScheme" "$f" 2>/dev/null) || continue
+    case " $* " in *" $t "*) "$pb" -c "Delete :LSHandlers:$i" "$f" >/dev/null && n=$((n + 1)) ;; esac
   done
-  # …and add the new ones. One call per type: PlistBuddy crashes on long command lists.
+  echo $n
+}
+
+# Wait (at most 2 minutes) until LaunchServices has finished registering newly installed apps.
+lsd_wait_idle() {
+  local n=0 cpu
+  [ "$DRY_RUN" = 1 ] && return 0
+  while [ $n -lt 24 ]; do
+    cpu=$(ps -axo %cpu=,comm= | awk '$2 ~ /(^|\/)lsd$/ { s += $1 } END { printf "%d", s }')
+    [ "${cpu:-0}" -lt 10 ] && return 0
+    [ $n = 0 ] && info "Waiting until macOS has finished registering the new apps…"
+    n=$((n + 1)); sleep 5
+  done
+}
+
+# ls_set_handlers <bundle id> <uti>…: make an app the default for these types (from the next login).
+ls_set_handlers() {
+  local id=$1 pb=/usr/libexec/PlistBuddy tmp f uti
+  shift
+  if [ "$DRY_RUN" = 1 ]; then run defaults import "$LS_DOMAIN" "# LSHandlers: $id ← $*"; return 0; fi
+  tmp=$(mktemp -d) || return 1
+  f="$tmp/ls.plist"
+  defaults export "$LS_DOMAIN" "$f" || { rm -rf "$tmp"; return 1; }
+  cp "$f" "$HOME/Library/Logs/mac-initial-setup.launchservices.backup-$(date +%Y%m%d-%H%M%S).plist"
+  "$pb" -c "Print :LSHandlers" "$f" >/dev/null 2>&1 || "$pb" -c "Add :LSHandlers array" "$f" >/dev/null || { rm -rf "$tmp"; return 1; }
+  ls_drop_handlers "$f" "*" "$@" >/dev/null
+  # One call per type: PlistBuddy crashes on long command lists.
   for uti in "$@"; do
     "$pb" -c "Add :LSHandlers:0 dict" \
           -c "Add :LSHandlers:0:LSHandlerContentType string $uti" \
           -c "Add :LSHandlers:0:LSHandlerRoleAll string $id" \
           -c "Add :LSHandlers:0:LSHandlerPreferredVersions dict" \
-          -c "Add :LSHandlers:0:LSHandlerPreferredVersions:LSHandlerRoleAll string -" "$f" >/dev/null || return 1
+          -c "Add :LSHandlers:0:LSHandlerPreferredVersions:LSHandlerRoleAll string -" "$f" >/dev/null || { rm -rf "$tmp"; return 1; }
   done
-  plutil -convert binary1 "$f"
-  killall lsd 2>/dev/null   # LaunchServices restarts and reads the new preferences
-  sleep 1
+  plutil -lint -s "$f" && defaults import "$LS_DOMAIN" "$f"
+  local rc=$?
+  rm -rf "$tmp"
+  return $rc
 }
 
 # ls_remove_handlers <bundle id> <type or URL scheme>…: drop that app's default-app entries for these.
 ls_remove_handlers() {
-  local id=$1 pb=/usr/libexec/PlistBuddy f=$LS_PLIST i=0 t n=0
+  local id=$1 tmp f n
   shift
-  [ -f "$f" ] || return 0
-  if [ "$DRY_RUN" = 1 ]; then run "$pb" "$f" "# remove $id for: $*"; return 0; fi
-  while "$pb" -c "Print :LSHandlers:$i" "$f" >/dev/null 2>&1; do i=$((i + 1)); done
-  while [ $i -gt 0 ]; do
-    i=$((i - 1))
-    [ "$("$pb" -c "Print :LSHandlers:$i:LSHandlerRoleAll" "$f" 2>/dev/null | tr '[:upper:]' '[:lower:]')" = "$id" ] || continue
-    t=$("$pb" -c "Print :LSHandlers:$i:LSHandlerContentType" "$f" 2>/dev/null) \
-      || t=$("$pb" -c "Print :LSHandlers:$i:LSHandlerURLScheme" "$f" 2>/dev/null) || continue
-    case " $* " in *" $t "*) "$pb" -c "Delete :LSHandlers:$i" "$f" && n=$((n + 1)) ;; esac
-  done
-  [ $n -gt 0 ] && { plutil -convert binary1 "$f"; killall lsd 2>/dev/null; sleep 1; ok "Removed $n wrong TextMate links (web browser, images, video) left by an older version"; }
+  if [ "$DRY_RUN" = 1 ]; then run defaults import "$LS_DOMAIN" "# remove $id for: $*"; return 0; fi
+  tmp=$(mktemp -d) || return 0
+  f="$tmp/ls.plist"
+  if defaults export "$LS_DOMAIN" "$f" 2>/dev/null; then
+    n=$(ls_drop_handlers "$f" "$id" "$@")
+    if [ "${n:-0}" -gt 0 ] && plutil -lint -s "$f" && defaults import "$LS_DOMAIN" "$f"; then
+      ok "Removed $n wrong TextMate links (web browser, images, video) left by an older version"
+    fi
+  fi
+  rm -rf "$tmp"
   return 0
 }
 
@@ -82,6 +114,7 @@ textmate_defaults() {
   id=$(printf '%s' "$id" | tr '[:upper:]' '[:lower:]')
   utis=$( { printf '%s\n' $TEXTMATE_UTIS; text_utis $TEXTMATE_EXTS; } | sort -u | grep -vxF "$(printf '%s\n' $TEXTMATE_SKIP)")
   [ -n "$utis" ] || { err "Could not look up the file types"; return 1; }
+  lsd_wait_idle
   ls_set_handlers "$id" $utis || { err "Could not update the default apps"; return 1; }
   ls_remove_handlers "$id" $TEXTMATE_SKIP http https com.apple.default-app.web-browser
   if [ "$DRY_RUN" = 0 ]; then
@@ -91,7 +124,8 @@ textmate_defaults() {
     esac
   fi
   for uti in $utis; do n=$((n + 1)); done
-  ok "TextMate is now the default for $n file types (no confirmation dialogs)"
+  ok "TextMate will be the default for $n file types after you log out and back in (no confirmation dialogs)"
+  follow_up "Log out and back in: TextMate then opens your text and code files."
 }
 
 textmate_cli() {

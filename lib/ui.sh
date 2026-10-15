@@ -22,6 +22,12 @@ item() {
   ROW_KIND+=(i); ROW_REF+=("$i")
 }
 
+# run_last <id>…: run these items at the very end, after everything is installed and the Finder
+# and Dock have restarted. They still show up in their own section in the checklist.
+I_LAST=" "
+run_last() { I_LAST="$I_LAST$* "; }
+is_last() { case $I_LAST in *" $1 "*) return 0 ;; esac; return 1; }
+
 # setting <key> <default> <label> [description] – overridable with MAC_SETUP_<KEY> env vars.
 setting() {
   local i=${#S_KEY[@]} env val

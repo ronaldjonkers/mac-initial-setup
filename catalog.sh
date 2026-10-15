@@ -57,7 +57,8 @@ item logi-options      off "Logi Options+"      "cask logi-options+ logioptionsp
 
 section "Editors"
 item textmate          on  "TextMate"           "cask textmate TextMate" "" "https://macromates.com"
-item textmate-defaults on  "TextMate opens text & code files (txt, md, json, php, html, css, js…)" "textmate_defaults" "Without 50 confirmation dialogs; web links stay in your browser" "https://macromates.com"
+item textmate-defaults on  "TextMate opens text & code files (txt, md, json, php, html, css, js…)" "textmate_defaults" "No confirmation dialogs; takes effect after you log out and back in" "https://macromates.com"
+run_last textmate-defaults   # changes LaunchServices: only when all apps are installed
 item textmate-cli      on  "'mate' command in the terminal" "textmate_cli" "" "https://macromates.com"
 item textmate-editor   off "TextMate as \$EDITOR (git commits etc.)" "textmate_editor" "" "https://macromates.com"
 item vscode            off "Visual Studio Code" "cask visual-studio-code 'Visual Studio Code'" "" "https://code.visualstudio.com"
