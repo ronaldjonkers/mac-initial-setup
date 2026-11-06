@@ -1,0 +1,25 @@
+#!/bin/sh
+# Shared Git hook: keep existing repository hooks working, then remove only
+# AI Co-Authored-By trailers from new local commit messages.
+hook=${0##*/}
+common_dir=$(git rev-parse --git-common-dir 2>/dev/null) || exit 0
+repo_hook="$common_dir/hooks/$hook"
+if [ -x "$repo_hook" ]; then
+  "$repo_hook" "$@" || exit $?
+fi
+[ "$hook" = commit-msg ] || exit 0
+[ $# -ge 1 ] || exit 1
+
+message=$1
+tmp=$(mktemp "${TMPDIR:-/tmp}/mac-setup-commit.XXXXXX") || exit 1
+trap 'rm -f "$tmp"' EXIT HUP INT TERM
+awk '
+  {
+    lower = tolower($0)
+    if (lower ~ /^[[:space:]]*co-authored-by:[[:space:]]*/ &&
+        (lower ~ /<[^>]*(noreply@anthropic\.com|noreply@openai\.com|gemini-cli@google\.com)>/ ||
+         lower ~ /^[[:space:]]*co-authored-by:[[:space:]]*(claude[[:space:]]+(opus|sonnet|haiku|code)|codex|kimi([[:space:]]+(code|k2))?|gemini([- ](cli|code[- ]assist))?|grok([[:space:]]+(build|bot))?)[[:space:]]*</)) next
+    print
+  }
+' "$message" > "$tmp" || exit 1
+cat "$tmp" > "$message"

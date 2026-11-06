@@ -811,6 +811,14 @@
   },
   {
     "kind": "item",
+    "id": "ai-no-coauthor",
+    "on": true,
+    "label": "Keep AI agents out of Git co-authors",
+    "desc": "For new local commits; human co-authors stay",
+    "url": ""
+  },
+  {
+    "kind": "item",
     "id": "sequel-ace",
     "on": true,
     "label": "Sequel Ace",

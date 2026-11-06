@@ -254,6 +254,42 @@ ai_yolo_aliases() {
   zshrc_add "alias grok='command grok --yolo'"
 }
 
+# Keep AI tools out of Git's co-author list while preserving human co-authors.
+# The shared hook forwards other hook types to each repository's own hooks.
+ai_no_coauthor() {
+  local hook_dir="$HOME/.config/mac-initial-setup/git-hooks" existing hook tmp settings="$HOME/.claude/settings.json"
+  existing=$(git config --global --get core.hooksPath 2>/dev/null || true)
+  if [ -n "$existing" ] && [ "$existing" != "$hook_dir" ]; then
+    warn "Existing Git hooks path $existing; leaving it untouched"
+    follow_up "Add the AI co-author filter from $ROOT/lib/ai-commit-hook to your existing Git commit-msg hook."
+  else
+    run mkdir -p "$hook_dir" || return 1
+    run cp "$ROOT/lib/ai-commit-hook" "$hook_dir/commit-msg" || return 1
+    run chmod +x "$hook_dir/commit-msg" || return 1
+    for hook in applypatch-msg pre-applypatch pre-commit prepare-commit-msg post-commit post-checkout post-merge post-rewrite pre-merge-commit pre-push pre-rebase pre-auto-gc post-index-change reference-transaction sendemail-validate fsmonitor-watchman post-update pre-receive update push-to-checkout; do
+      if [ "$DRY_RUN" = 1 ]; then run ln -s commit-msg "$hook_dir/$hook"; continue; fi
+      [ -e "$hook_dir/$hook" ] || ln -s commit-msg "$hook_dir/$hook" || return 1
+    done
+    run git config --global core.hooksPath "$hook_dir" || return 1
+  fi
+
+  ensure_tool jq || return 1
+  if [ "$DRY_RUN" = 1 ]; then
+    info "Would disable Claude Code commit and PR attribution in $settings"
+    return 0
+  fi
+  mkdir -p "$(dirname "$settings")" || return 1
+  tmp=$(mktemp "$HOME/.claude/.settings.XXXXXX") || return 1
+  if [ -f "$settings" ]; then
+    jq '.attribution = ((.attribution | if type == "object" then . else {} end) + {"commit":"","pr":""})' "$settings" > "$tmp" || { rm -f "$tmp"; return 1; }
+  else
+    printf '%s\n' '{"attribution":{"commit":"","pr":""}}' > "$tmp"
+  fi
+  chmod 600 "$tmp"
+  mv "$tmp" "$settings"
+  ok "AI co-author attribution disabled for new local Git commits"
+}
+
 # AppleScript apps let terminal-only agents live in the Dock. Only create a
 # launcher when its CLI was installed, and leave unrelated apps untouched.
 ai_dock_launchers() {

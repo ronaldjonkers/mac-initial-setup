@@ -61,7 +61,7 @@ Items marked ○ are off by default.
 - **AI apps**: ChatGPT, Claude, Kimi and Grok Bot desktop apps
 - **Terminal tools**: git, gh, wget, telnet, jq, ripgrep, tree, htop, btop, fd, nmap, iperf3, HTTPie, watch, ffmpeg, `locate` (index built right away), [Mole](https://github.com/tw93/mole); ○ mtr, yq, fzf, bat, tldr, tmux, ImageMagick (`netstat` and `nc` come with macOS)
 - **Programming languages**: PHP (latest, ○ 8.4, 8.3, 8.2 side by side), Composer, Node.js, uv (Python), Go, Rust, MySQL client, PostgreSQL client, SQLite; ○ pnpm, Bun, Deno, Ruby, Redis
-- **Developer tools**: git config, Claude Code, Codex CLI, Kimi CLI, Gemini CLI, Grok CLI, same-name YOLO aliases for all five, Sequel Ace, Xcode, TestFlight; ○ SQLPro for Postgres, OrbStack, Ghostty, iTerm2
+- **Developer tools**: git config, Claude Code, Codex CLI, Kimi CLI, Gemini CLI, Grok CLI, same-name YOLO aliases for all five, a Git hook that removes AI co-author trailers from new local commits, Sequel Ace, Xcode, TestFlight; ○ SQLPro for Postgres, OrbStack, Ghostty, iTerm2
 - **Finder**: hidden files (also in the Open and Save dialogs of every app), extensions, path and status bar, full path in the title, list view, folders first, search the current folder, ~/Library visible, no .DS_Store files on network or USB drives
 - **Dock**: Jump Desktop, AI desktop apps and Terminal launchers for the five AI CLIs; no Safari, no recent apps, Spaces stay in place; desktop icons use Stacks
 - **Widgets**: clears existing widgets and enables desktop widgets. After setup, use **Edit Widgets** on the desktop to place Calendar and Reminders; macOS does not offer a supported command to position built-in widgets.
@@ -71,6 +71,8 @@ Items marked ○ are off by default.
 - **System**: Touch ID for `sudo`, expanded save dialogs, save to disk instead of iCloud, computer name (set when you fill it in); ○ firewall
 
 App Store apps are installed with [`mas`](https://github.com/mas-cli/mas). Sign in to the App Store before you start.
+
+The AI credit setting runs after all five CLIs. It sets Claude's user-wide `attribution.commit` and `attribution.pr` to empty strings in `~/.claude/settings.json`, while retaining other settings. A global Git `commit-msg` hook removes co-author lines for Claude, Codex, Kimi, Gemini and Grok from new local commits. Human co-authors and repository hooks remain active. If you already use a different global `core.hooksPath`, setup leaves it in place and shows a follow-up instead of replacing your hooks.
 
 ## How it works
 
@@ -95,7 +97,7 @@ Releases are built on your own Mac, no CI needed:
 ```sh
 ./scripts/release.sh --build-only   # build + package into dist/
 ./scripts/release.sh --install      # build and install to ~/.mac-initial-setup, like the one-liner (for testing)
-./scripts/release.sh v0.2.2         # also tag, push and upload as a GitHub release (needs `gh auth login`)
+./scripts/release.sh v0.2.3         # also tag, push and upload as a GitHub release (needs `gh auth login`)
 ```
 
 The script checks the shell scripts, builds a universal binary (Apple Silicon + Intel) and packages `mac-initial-setup.tar.gz`. `install.sh` always downloads the latest release.

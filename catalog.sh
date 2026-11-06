@@ -127,6 +127,7 @@ item kimi              on  "Kimi CLI"           "install_kimi" "Installed with u
 item gemini            on  "Gemini CLI"         "formula gemini-cli" "Official Google CLI" "https://github.com/google-gemini/gemini-cli"
 item grok              on  "Grok CLI"           "install_grok" "Official xAI CLI" "https://docs.x.ai/build/overview"
 item ai-yolo-aliases   on  "AI CLI aliases start in YOLO mode" "ai_yolo_aliases" "claude, codex, kimi, gemini and grok"
+item ai-no-coauthor    on  "Keep AI agents out of Git co-authors" "ai_no_coauthor" "For new local commits; human co-authors stay"
 item sequel-ace        on  "Sequel Ace"         "appstore 1518036000 'Sequel Ace'" "" "https://sequel-ace.com"
 item xcode             on  "Xcode"              "install_xcode" "Mac App Store, large download" "https://developer.apple.com"
 item testflight        on  "TestFlight"         "appstore 899247664 TestFlight" "" "https://developer.apple.com"
