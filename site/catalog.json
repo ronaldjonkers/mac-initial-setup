@@ -1,0 +1,1274 @@
+[
+  {
+    "kind": "section",
+    "title": "Core"
+  },
+  {
+    "kind": "item",
+    "id": "homebrew",
+    "on": true,
+    "label": "Homebrew + Xcode Command Line Tools",
+    "desc": "Package manager used for almost everything below",
+    "url": "https://brew.sh"
+  },
+  {
+    "kind": "item",
+    "id": "shell-basics",
+    "on": true,
+    "label": "Shell basics (~/.local/bin in PATH, ll alias)",
+    "desc": "Adds a managed block to ~/.zshrc",
+    "url": ""
+  },
+  {
+    "kind": "section",
+    "title": "Browsers"
+  },
+  {
+    "kind": "item",
+    "id": "firefox",
+    "on": true,
+    "label": "Firefox",
+    "desc": "",
+    "url": "https://firefox.com"
+  },
+  {
+    "kind": "item",
+    "id": "brave",
+    "on": true,
+    "label": "Brave",
+    "desc": "",
+    "url": "https://brave.com"
+  },
+  {
+    "kind": "item",
+    "id": "chrome",
+    "on": true,
+    "label": "Google Chrome",
+    "desc": "",
+    "url": "https://google.com/chrome"
+  },
+  {
+    "kind": "section",
+    "title": "1Password"
+  },
+  {
+    "kind": "item",
+    "id": "1password",
+    "on": true,
+    "label": "1Password",
+    "desc": "",
+    "url": "https://1password.com"
+  },
+  {
+    "kind": "item",
+    "id": "1password-cli",
+    "on": true,
+    "label": "1Password CLI (op)",
+    "desc": "",
+    "url": "https://1password.com"
+  },
+  {
+    "kind": "item",
+    "id": "1password-safari",
+    "on": false,
+    "label": "1Password for Safari",
+    "desc": "Mac App Store",
+    "url": "https://1password.com"
+  },
+  {
+    "kind": "item",
+    "id": "1password-chrome",
+    "on": true,
+    "label": "1Password extension – Chrome",
+    "desc": "Chrome offers to enable it on next launch",
+    "url": "https://1password.com"
+  },
+  {
+    "kind": "item",
+    "id": "1password-brave",
+    "on": true,
+    "label": "1Password extension – Brave",
+    "desc": "Brave offers to enable it on next launch",
+    "url": "https://1password.com"
+  },
+  {
+    "kind": "item",
+    "id": "1password-firefox",
+    "on": true,
+    "label": "1Password extension – Firefox",
+    "desc": "Installed through a Firefox policy",
+    "url": "https://1password.com"
+  },
+  {
+    "kind": "item",
+    "id": "1password-setup",
+    "on": true,
+    "label": "Guided: Touch ID, CLI integration, SSH agent",
+    "desc": "Opens 1Password and walks you through the developer settings",
+    "url": "https://1password.com"
+  },
+  {
+    "kind": "section",
+    "title": "SSH"
+  },
+  {
+    "kind": "setting",
+    "key": "ssh_user",
+    "value": "ronald",
+    "label": "SSH username (Host * → User)",
+    "desc": "Default user for every ssh host"
+  },
+  {
+    "kind": "setting",
+    "key": "op_ssh_item",
+    "value": "SSH Key",
+    "label": "1Password item with your SSH key",
+    "desc": "Title of an 'SSH Key' item in 1Password"
+  },
+  {
+    "kind": "setting",
+    "key": "op_ssh_vault",
+    "value": "",
+    "label": "1Password vault (empty = search all)",
+    "desc": "Only needed when the title exists in more than one vault"
+  },
+  {
+    "kind": "item",
+    "id": "ssh-config",
+    "on": true,
+    "label": "Write ~/.ssh/config (User, UseKeychain, AddKeysToAgent)",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "ssh-key-restore",
+    "on": true,
+    "label": "Restore SSH key from 1Password + passphrase in Keychain",
+    "desc": "Key on disk, passphrase in Keychain: never typed again",
+    "url": "https://1password.com"
+  },
+  {
+    "kind": "item",
+    "id": "ssh-1p-agent",
+    "on": false,
+    "label": "Use the 1Password SSH agent (Touch ID per use)",
+    "desc": "Key never touches the disk; ssh/git asks for Touch ID",
+    "url": "https://1password.com"
+  },
+  {
+    "kind": "section",
+    "title": "Communication"
+  },
+  {
+    "kind": "item",
+    "id": "whatsapp",
+    "on": true,
+    "label": "WhatsApp",
+    "desc": "",
+    "url": "https://whatsapp.com"
+  },
+  {
+    "kind": "item",
+    "id": "telegram",
+    "on": true,
+    "label": "Telegram",
+    "desc": "",
+    "url": "https://telegram.org"
+  },
+  {
+    "kind": "item",
+    "id": "northmail",
+    "on": true,
+    "label": "Northmail",
+    "desc": "Latest signed macOS release from Binadit",
+    "url": "https://binadit.work/en/downloads/"
+  },
+  {
+    "kind": "section",
+    "title": "Remote access"
+  },
+  {
+    "kind": "item",
+    "id": "jump-desktop",
+    "on": true,
+    "label": "Jump Desktop (client)",
+    "desc": "",
+    "url": "https://jumpdesktop.com"
+  },
+  {
+    "kind": "item",
+    "id": "jump-connect",
+    "on": true,
+    "label": "Jump Desktop Connect (server)",
+    "desc": "",
+    "url": "https://jumpdesktop.com"
+  },
+  {
+    "kind": "item",
+    "id": "termius",
+    "on": true,
+    "label": "Termius",
+    "desc": "",
+    "url": "https://termius.com"
+  },
+  {
+    "kind": "item",
+    "id": "windows-app",
+    "on": true,
+    "label": "Windows App (Remote Desktop)",
+    "desc": "",
+    "url": "https://microsoft.com"
+  },
+  {
+    "kind": "section",
+    "title": "Productivity"
+  },
+  {
+    "kind": "item",
+    "id": "binadit-drive",
+    "on": true,
+    "label": "binadit Drive",
+    "desc": "Latest macOS release from Binadit",
+    "url": "https://binadit.work/en/downloads/"
+  },
+  {
+    "kind": "item",
+    "id": "textsniper",
+    "on": true,
+    "label": "TextSniper",
+    "desc": "",
+    "url": "https://textsniper.app"
+  },
+  {
+    "kind": "item",
+    "id": "spanwise",
+    "on": true,
+    "label": "SpanWise (latest)",
+    "desc": "Window manager – starts now and at login",
+    "url": "https://spanwise.pro"
+  },
+  {
+    "kind": "item",
+    "id": "moredisplays",
+    "on": true,
+    "label": "MoreDisplays (latest)",
+    "desc": "Display setups & virtual displays – moredisplays.com",
+    "url": "https://moredisplays.com"
+  },
+  {
+    "kind": "item",
+    "id": "clipledger",
+    "on": true,
+    "label": "ClipLedger (latest)",
+    "desc": "Encrypted clipboard history – starts now and at login",
+    "url": "https://clipledger.app"
+  },
+  {
+    "kind": "item",
+    "id": "appcleaner",
+    "on": true,
+    "label": "AppCleaner",
+    "desc": "",
+    "url": "https://freemacsoft.net"
+  },
+  {
+    "kind": "item",
+    "id": "raycast",
+    "on": false,
+    "label": "Raycast",
+    "desc": "Spotlight replacement",
+    "url": "https://raycast.com"
+  },
+  {
+    "kind": "item",
+    "id": "maccy",
+    "on": false,
+    "label": "Maccy (clipboard history)",
+    "desc": "",
+    "url": "https://maccy.app"
+  },
+  {
+    "kind": "item",
+    "id": "stats",
+    "on": false,
+    "label": "Stats (menu bar system monitor)",
+    "desc": "",
+    "url": "https://github.com/exelban/stats"
+  },
+  {
+    "kind": "item",
+    "id": "adguard-mini",
+    "on": false,
+    "label": "AdGuard Mini (Safari)",
+    "desc": "",
+    "url": "https://adguard.com"
+  },
+  {
+    "kind": "item",
+    "id": "logi-options",
+    "on": false,
+    "label": "Logi Options+",
+    "desc": "",
+    "url": "https://logitech.com"
+  },
+  {
+    "kind": "section",
+    "title": "Editors"
+  },
+  {
+    "kind": "item",
+    "id": "textmate",
+    "on": true,
+    "label": "TextMate",
+    "desc": "",
+    "url": "https://macromates.com"
+  },
+  {
+    "kind": "item",
+    "id": "textmate-defaults",
+    "on": true,
+    "label": "TextMate opens text & code files (txt, md, json, php, html, css, js…)",
+    "desc": "No confirmation dialogs; takes effect after you log out and back in",
+    "url": "https://macromates.com"
+  },
+  {
+    "kind": "item",
+    "id": "textmate-cli",
+    "on": true,
+    "label": "'mate' command in the terminal",
+    "desc": "",
+    "url": "https://macromates.com"
+  },
+  {
+    "kind": "item",
+    "id": "textmate-editor",
+    "on": false,
+    "label": "TextMate as $EDITOR (git commits etc.)",
+    "desc": "",
+    "url": "https://macromates.com"
+  },
+  {
+    "kind": "item",
+    "id": "vscode",
+    "on": false,
+    "label": "Visual Studio Code",
+    "desc": "",
+    "url": "https://code.visualstudio.com"
+  },
+  {
+    "kind": "section",
+    "title": "AI apps"
+  },
+  {
+    "kind": "item",
+    "id": "chatgpt",
+    "on": true,
+    "label": "ChatGPT",
+    "desc": "Desktop app from OpenAI",
+    "url": "https://chatgpt.com"
+  },
+  {
+    "kind": "item",
+    "id": "claude-desktop",
+    "on": true,
+    "label": "Claude",
+    "desc": "Desktop app from Anthropic",
+    "url": "https://claude.ai"
+  },
+  {
+    "kind": "item",
+    "id": "kimi-desktop",
+    "on": true,
+    "label": "Kimi",
+    "desc": "Desktop app from Moonshot AI",
+    "url": "https://kimi.com"
+  },
+  {
+    "kind": "item",
+    "id": "grok-bot",
+    "on": true,
+    "label": "Grok Bot",
+    "desc": "Desktop app from xAI",
+    "url": "https://x.ai/bot"
+  },
+  {
+    "kind": "section",
+    "title": "Terminal tools"
+  },
+  {
+    "kind": "item",
+    "id": "git",
+    "on": true,
+    "label": "git",
+    "desc": "Newer than the one in Xcode's tools",
+    "url": "https://git-scm.com"
+  },
+  {
+    "kind": "item",
+    "id": "gh",
+    "on": true,
+    "label": "GitHub CLI (gh)",
+    "desc": "",
+    "url": "https://cli.github.com"
+  },
+  {
+    "kind": "item",
+    "id": "wget",
+    "on": true,
+    "label": "wget",
+    "desc": "Download files from the terminal",
+    "url": "https://www.gnu.org/software/wget/"
+  },
+  {
+    "kind": "item",
+    "id": "telnet",
+    "on": true,
+    "label": "telnet",
+    "desc": "Test whether a port answers (netstat and nc come with macOS)",
+    "url": "https://www.gnu.org/software/inetutils/"
+  },
+  {
+    "kind": "item",
+    "id": "jq",
+    "on": true,
+    "label": "jq",
+    "desc": "Read and filter JSON",
+    "url": "https://jqlang.org"
+  },
+  {
+    "kind": "item",
+    "id": "ripgrep",
+    "on": true,
+    "label": "ripgrep (rg)",
+    "desc": "Very fast search through files",
+    "url": "https://github.com/BurntSushi/ripgrep"
+  },
+  {
+    "kind": "item",
+    "id": "tree",
+    "on": true,
+    "label": "tree",
+    "desc": "Show folders as a tree",
+    "url": "https://oldmanprogrammer.net/source.php?dir=projects/tree"
+  },
+  {
+    "kind": "item",
+    "id": "htop",
+    "on": true,
+    "label": "htop",
+    "desc": "See what is using CPU and memory",
+    "url": "https://htop.dev"
+  },
+  {
+    "kind": "item",
+    "id": "mole",
+    "on": true,
+    "label": "Mole (mo) – clean & optimize your Mac",
+    "desc": "Open-source CLI from github.com/tw93/mole – run 'mo'",
+    "url": "https://mole.fit"
+  },
+  {
+    "kind": "item",
+    "id": "nmap",
+    "on": true,
+    "label": "nmap",
+    "desc": "Scan a network for hosts and open ports",
+    "url": "https://nmap.org"
+  },
+  {
+    "kind": "item",
+    "id": "mtr",
+    "on": false,
+    "label": "mtr",
+    "desc": "traceroute and ping in one",
+    "url": "https://www.bitwizard.nl/mtr/"
+  },
+  {
+    "kind": "item",
+    "id": "iperf3",
+    "on": true,
+    "label": "iperf3",
+    "desc": "Measure network speed between two machines",
+    "url": "https://iperf.fr"
+  },
+  {
+    "kind": "item",
+    "id": "httpie",
+    "on": true,
+    "label": "HTTPie (http)",
+    "desc": "Friendly curl for APIs",
+    "url": "https://httpie.io"
+  },
+  {
+    "kind": "item",
+    "id": "yq",
+    "on": false,
+    "label": "yq",
+    "desc": "jq for YAML",
+    "url": "https://github.com/mikefarah/yq"
+  },
+  {
+    "kind": "item",
+    "id": "fzf",
+    "on": false,
+    "label": "fzf",
+    "desc": "Fuzzy finder for files and history",
+    "url": "https://github.com/junegunn/fzf"
+  },
+  {
+    "kind": "item",
+    "id": "bat",
+    "on": false,
+    "label": "bat",
+    "desc": "cat with colors",
+    "url": "https://github.com/sharkdp/bat"
+  },
+  {
+    "kind": "item",
+    "id": "fd",
+    "on": true,
+    "label": "fd",
+    "desc": "Simpler, faster find",
+    "url": "https://github.com/sharkdp/fd"
+  },
+  {
+    "kind": "item",
+    "id": "btop",
+    "on": true,
+    "label": "btop",
+    "desc": "Prettier htop",
+    "url": "https://github.com/aristocratos/btop"
+  },
+  {
+    "kind": "item",
+    "id": "tldr",
+    "on": false,
+    "label": "tldr",
+    "desc": "Short examples instead of man pages",
+    "url": "https://tldr.sh"
+  },
+  {
+    "kind": "item",
+    "id": "tmux",
+    "on": false,
+    "label": "tmux",
+    "desc": "Keep terminal sessions running",
+    "url": "https://github.com/tmux/tmux"
+  },
+  {
+    "kind": "item",
+    "id": "watch",
+    "on": true,
+    "label": "watch",
+    "desc": "Re-run a command every few seconds",
+    "url": "https://gitlab.com/procps-ng/procps"
+  },
+  {
+    "kind": "item",
+    "id": "locate",
+    "on": true,
+    "label": "locate",
+    "desc": "Turns on the built-in file index and builds it right away",
+    "url": "https://ss64.com/mac/locate.html"
+  },
+  {
+    "kind": "item",
+    "id": "ffmpeg",
+    "on": true,
+    "label": "ffmpeg",
+    "desc": "Convert video and audio",
+    "url": "https://ffmpeg.org"
+  },
+  {
+    "kind": "item",
+    "id": "imagemagick",
+    "on": false,
+    "label": "ImageMagick",
+    "desc": "Convert and resize images",
+    "url": "https://imagemagick.org"
+  },
+  {
+    "kind": "section",
+    "title": "Programming languages"
+  },
+  {
+    "kind": "setting",
+    "key": "php_default",
+    "value": "latest",
+    "label": "PHP version for the php command",
+    "desc": "latest, 8.4, 8.3 or 8.2 – that version must be ticked below"
+  },
+  {
+    "kind": "item",
+    "id": "php",
+    "on": true,
+    "label": "PHP (latest)",
+    "desc": "The php command in your terminal",
+    "url": "https://www.php.net"
+  },
+  {
+    "kind": "item",
+    "id": "php84",
+    "on": false,
+    "label": "PHP 8.4",
+    "desc": "Installed next to the latest; pick the default above",
+    "url": "https://www.php.net"
+  },
+  {
+    "kind": "item",
+    "id": "php83",
+    "on": false,
+    "label": "PHP 8.3",
+    "desc": "Installed next to the latest; pick the default above",
+    "url": "https://www.php.net"
+  },
+  {
+    "kind": "item",
+    "id": "php82",
+    "on": false,
+    "label": "PHP 8.2",
+    "desc": "Security fixes until end of 2026; pick the default above",
+    "url": "https://www.php.net"
+  },
+  {
+    "kind": "item",
+    "id": "composer",
+    "on": true,
+    "label": "Composer",
+    "desc": "PHP package manager",
+    "url": "https://getcomposer.org"
+  },
+  {
+    "kind": "item",
+    "id": "node",
+    "on": true,
+    "label": "Node.js",
+    "desc": "Includes npm",
+    "url": "https://nodejs.org"
+  },
+  {
+    "kind": "item",
+    "id": "uv",
+    "on": true,
+    "label": "uv (Python)",
+    "desc": "Python versions, packages and tools",
+    "url": "https://astral.sh"
+  },
+  {
+    "kind": "item",
+    "id": "pnpm",
+    "on": false,
+    "label": "pnpm",
+    "desc": "Faster npm",
+    "url": "https://pnpm.io"
+  },
+  {
+    "kind": "item",
+    "id": "bun",
+    "on": false,
+    "label": "Bun",
+    "desc": "JavaScript runtime and package manager",
+    "url": "https://bun.sh"
+  },
+  {
+    "kind": "item",
+    "id": "deno",
+    "on": false,
+    "label": "Deno",
+    "desc": "",
+    "url": "https://deno.com"
+  },
+  {
+    "kind": "item",
+    "id": "go",
+    "on": true,
+    "label": "Go",
+    "desc": "",
+    "url": "https://go.dev"
+  },
+  {
+    "kind": "item",
+    "id": "rust",
+    "on": true,
+    "label": "Rust (rustup)",
+    "desc": "Official installer, cargo in ~/.cargo",
+    "url": "https://www.rust-lang.org"
+  },
+  {
+    "kind": "item",
+    "id": "ruby",
+    "on": false,
+    "label": "Ruby",
+    "desc": "Newer than the one in macOS",
+    "url": "https://www.ruby-lang.org"
+  },
+  {
+    "kind": "item",
+    "id": "mysql-client",
+    "on": true,
+    "label": "MySQL client",
+    "desc": "mysql, mysqldump",
+    "url": "https://www.mysql.com"
+  },
+  {
+    "kind": "item",
+    "id": "libpq",
+    "on": true,
+    "label": "PostgreSQL client",
+    "desc": "psql, pg_dump",
+    "url": "https://www.postgresql.org"
+  },
+  {
+    "kind": "item",
+    "id": "redis",
+    "on": false,
+    "label": "Redis",
+    "desc": "Start with: brew services start redis",
+    "url": "https://redis.io"
+  },
+  {
+    "kind": "item",
+    "id": "sqlite",
+    "on": true,
+    "label": "SQLite",
+    "desc": "Newer than the one in macOS",
+    "url": "https://sqlite.org"
+  },
+  {
+    "kind": "section",
+    "title": "Developer tools"
+  },
+  {
+    "kind": "setting",
+    "key": "git_name",
+    "value": "",
+    "label": "Git name",
+    "desc": "Leave empty to skip"
+  },
+  {
+    "kind": "setting",
+    "key": "git_email",
+    "value": "",
+    "label": "Git email",
+    "desc": "Leave empty to skip"
+  },
+  {
+    "kind": "item",
+    "id": "git-config",
+    "on": true,
+    "label": "Git config (name, email, sane defaults, global ignore)",
+    "desc": "",
+    "url": "https://git-scm.com"
+  },
+  {
+    "kind": "item",
+    "id": "claude-code",
+    "on": true,
+    "label": "Claude Code",
+    "desc": "Native installer, auto-updates",
+    "url": "https://claude.ai"
+  },
+  {
+    "kind": "item",
+    "id": "codex",
+    "on": true,
+    "label": "Codex CLI",
+    "desc": "Installed with Homebrew",
+    "url": "https://openai.com"
+  },
+  {
+    "kind": "item",
+    "id": "kimi",
+    "on": true,
+    "label": "Kimi CLI",
+    "desc": "Installed with uv",
+    "url": "https://kimi.com"
+  },
+  {
+    "kind": "item",
+    "id": "gemini",
+    "on": true,
+    "label": "Gemini CLI",
+    "desc": "Official Google CLI",
+    "url": "https://github.com/google-gemini/gemini-cli"
+  },
+  {
+    "kind": "item",
+    "id": "grok",
+    "on": true,
+    "label": "Grok CLI",
+    "desc": "Official xAI CLI",
+    "url": "https://docs.x.ai/build/overview"
+  },
+  {
+    "kind": "item",
+    "id": "ai-yolo-aliases",
+    "on": true,
+    "label": "AI CLI aliases start in YOLO mode",
+    "desc": "claude, codex, kimi, gemini and grok",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "sequel-ace",
+    "on": true,
+    "label": "Sequel Ace",
+    "desc": "",
+    "url": "https://sequel-ace.com"
+  },
+  {
+    "kind": "item",
+    "id": "xcode",
+    "on": true,
+    "label": "Xcode",
+    "desc": "Mac App Store, large download",
+    "url": "https://developer.apple.com"
+  },
+  {
+    "kind": "item",
+    "id": "testflight",
+    "on": true,
+    "label": "TestFlight",
+    "desc": "",
+    "url": "https://developer.apple.com"
+  },
+  {
+    "kind": "item",
+    "id": "sqlpro-postgres",
+    "on": false,
+    "label": "SQLPro for Postgres",
+    "desc": "",
+    "url": "https://hankinsoft.com"
+  },
+  {
+    "kind": "item",
+    "id": "orbstack",
+    "on": false,
+    "label": "OrbStack (Docker)",
+    "desc": "",
+    "url": "https://orbstack.dev"
+  },
+  {
+    "kind": "item",
+    "id": "ghostty",
+    "on": false,
+    "label": "Ghostty terminal",
+    "desc": "",
+    "url": "https://ghostty.org"
+  },
+  {
+    "kind": "item",
+    "id": "iterm2",
+    "on": false,
+    "label": "iTerm2",
+    "desc": "",
+    "url": "https://iterm2.com"
+  },
+  {
+    "kind": "section",
+    "title": "Finder"
+  },
+  {
+    "kind": "item",
+    "id": "finder-hidden",
+    "on": true,
+    "label": "Show hidden files",
+    "desc": "Toggle any time with ⌘⇧.",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "dialogs-hidden",
+    "on": true,
+    "label": "Show hidden files in Open and Save dialogs",
+    "desc": "In every app; apps already open pick it up after a restart",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-ext",
+    "on": true,
+    "label": "Show all file extensions",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-bars",
+    "on": true,
+    "label": "Show path bar and status bar",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-posix",
+    "on": true,
+    "label": "Full path in window title",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-list",
+    "on": true,
+    "label": "List view by default",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-folders",
+    "on": true,
+    "label": "Folders on top when sorting",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-search",
+    "on": true,
+    "label": "Search the current folder by default",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-ext-warn",
+    "on": true,
+    "label": "No warning when changing an extension",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-home",
+    "on": true,
+    "label": "New windows open your home folder",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-library",
+    "on": true,
+    "label": "Show ~/Library",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-dsstore",
+    "on": true,
+    "label": "No .DS_Store files on network/USB drives",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-drives",
+    "on": false,
+    "label": "Show drives on the desktop",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "finder-trash",
+    "on": false,
+    "label": "Empty trash items after 30 days",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "section",
+    "title": "Dock & desktop"
+  },
+  {
+    "kind": "setting",
+    "key": "dock_apps",
+    "value": "Messages, Calendar, Terminal, Jump Desktop, Notes, System Settings, ChatGPT, Claude, Kimi, Grok Bot, Claude Code CLI, Codex CLI, Kimi CLI, Gemini CLI, Grok CLI",
+    "label": "Dock apps (comma separated)",
+    "desc": "Installed apps and generated CLI launchers; Finder and Trash stay"
+  },
+  {
+    "kind": "item",
+    "id": "ai-dock-launchers",
+    "on": true,
+    "label": "Create Dock launchers for AI CLIs",
+    "desc": "Opens each CLI in Terminal",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "dock-clean",
+    "on": true,
+    "label": "Clean up the Dock: only the apps listed above",
+    "desc": "Removes every other app from the Dock",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "desktop-stacks",
+    "on": true,
+    "label": "Use Stacks for desktop icons",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "desktop-widgets",
+    "on": true,
+    "label": "Clear widgets; enable Calendar + Reminders setup",
+    "desc": "Place the two widgets manually in the macOS gallery",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "dock-recents",
+    "on": true,
+    "label": "Hide recent apps in the Dock",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "dock-spaces",
+    "on": true,
+    "label": "Don't rearrange Spaces automatically",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "desktop-click",
+    "on": true,
+    "label": "Clicking the wallpaper doesn't hide all windows",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "dock-autohide",
+    "on": false,
+    "label": "Auto-hide the Dock (no delay)",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "dock-minimize",
+    "on": false,
+    "label": "Minimize windows into the app icon",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "section",
+    "title": "Keyboard & trackpad"
+  },
+  {
+    "kind": "item",
+    "id": "tp-3finger",
+    "on": true,
+    "label": "Three finger drag",
+    "desc": "Swipe gestures move to four fingers (needs logout)",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "tp-natural",
+    "on": true,
+    "label": "Natural scrolling OFF (classic scroll direction)",
+    "desc": "Trackpad and mouse",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "tp-tap",
+    "on": true,
+    "label": "Tap to click",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "kb-repeat",
+    "on": true,
+    "label": "Fast key repeat (no accent popup on hold)",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "kb-quotes",
+    "on": true,
+    "label": "No smart quotes / dashes (better for code)",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "kb-tab",
+    "on": true,
+    "label": "Tab moves through all controls in dialogs",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "kb-autocorrect",
+    "on": false,
+    "label": "No autocorrect / auto-capitalization",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "section",
+    "title": "Screenshots"
+  },
+  {
+    "kind": "item",
+    "id": "shots-clipboard",
+    "on": true,
+    "label": "Screenshots go to the clipboard, not to a file",
+    "desc": "⌘⇧3 / ⌘⇧4 copy the screenshot; paste it with ⌘V",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "shots-folder",
+    "on": true,
+    "label": "Screenshot files go to ~/Screenshots, not the desktop",
+    "desc": "Only when you save one as a file (⌘⇧5 → Options)",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "shots-shadow",
+    "on": false,
+    "label": "No window shadow in screenshots",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "section",
+    "title": "Safari"
+  },
+  {
+    "kind": "item",
+    "id": "safari-downloads",
+    "on": false,
+    "label": "Don't open 'safe' files after downloading",
+    "desc": "Needs Full Disk Access for your terminal",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "safari-dev",
+    "on": false,
+    "label": "Develop menu + Web Inspector",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "safari-full-url",
+    "on": false,
+    "label": "Show full website address",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "safari-status-bar",
+    "on": false,
+    "label": "Status bar (link preview) and classic tab bar",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "safari-privacy",
+    "on": false,
+    "label": "Don't send search queries to Apple",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "section",
+    "title": "System & security"
+  },
+  {
+    "kind": "setting",
+    "key": "computer_name",
+    "value": "",
+    "label": "Computer name (empty = keep the current one)",
+    "desc": "Set automatically when filled in: name, HostName and LocalHostName"
+  },
+  {
+    "kind": "item",
+    "id": "firewall",
+    "on": false,
+    "label": "Turn on the firewall",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "expand-dialogs",
+    "on": true,
+    "label": "Expanded save & print dialogs",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "save-local",
+    "on": true,
+    "label": "Save new documents to disk, not iCloud",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "no-photos-popup",
+    "on": true,
+    "label": "Don't open Photos when a phone is connected",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "textedit-plain",
+    "on": true,
+    "label": "TextEdit uses plain text",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "scrollbars",
+    "on": false,
+    "label": "Always show scroll bars",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "no-boot-sound",
+    "on": false,
+    "label": "Mute the startup chime",
+    "desc": "",
+    "url": ""
+  },
+  {
+    "kind": "item",
+    "id": "touchid-sudo",
+    "on": true,
+    "label": "Touch ID for sudo in the terminal",
+    "desc": "Uses /etc/pam.d/sudo_local, survives macOS updates (runs last)",
+    "url": ""
+  }
+]
