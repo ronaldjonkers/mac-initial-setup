@@ -16,7 +16,7 @@ On a brand-new Mac, open **Terminal** and paste:
 curl -fsSL https://raw.githubusercontent.com/ronaldjonkers/mac-initial-setup/main/install.sh | bash
 ```
 
-This downloads the latest release to `~/.mac-initial-setup` and opens the app:
+This downloads the latest `main` branch to `~/.mac-initial-setup` and opens the app. A push to `main` is enough to update the installer; a GitHub release is optional. The repository includes a universal desktop binary for Apple Silicon and Intel Macs.
 
 - **Pick**: every app and setting is a card with a switch. Turn whole sections on or off, search, and fill in your SSH username, git name, Dock apps and other settings.
 - **Dry run**: turn this on to see every command without changing anything.
@@ -78,6 +78,7 @@ The AI credit setting runs after all five CLIs. It sets Claude's user-wide `attr
 
 ```
 app/            Rust desktop app (tao + wry → native window with WKWebView), UI in app/ui/index.html
+bin/mac-setup   prebuilt universal desktop binary used by the one-line installer
 setup.sh        the engine: terminal checklist, or `--gui-run` when driven by the app
 catalog.sh      every item and setting, in run order
 lib/, modules/  installers and macOS tweaks (plain bash 3.2, ships with macOS)
@@ -92,15 +93,24 @@ cd app && cargo run --release            # needs Rust (rustup.rs)
 cargo run --release -- --dry-run         # start with dry run switched on
 ```
 
-Releases are built on your own Mac, no CI needed:
+When changing the desktop app, build and commit the updated binary before pushing:
+
+```sh
+rustup target add aarch64-apple-darwin x86_64-apple-darwin
+(cd app && cargo build --release --locked --target aarch64-apple-darwin && cargo build --release --locked --target x86_64-apple-darwin)
+lipo -create -output bin/mac-setup app/target/aarch64-apple-darwin/release/mac-setup app/target/x86_64-apple-darwin/release/mac-setup
+git add app bin/mac-setup && git commit -m "Update desktop app" && git push
+```
+
+GitHub releases are optional and can still be built on your own Mac:
 
 ```sh
 ./scripts/release.sh --build-only   # build + package into dist/
-./scripts/release.sh --install      # build and install to ~/.mac-initial-setup, like the one-liner (for testing)
+./scripts/release.sh --install      # build and install locally to ~/.mac-initial-setup (for testing)
 ./scripts/release.sh v0.2.3         # also tag, push and upload as a GitHub release (needs `gh auth login`)
 ```
 
-The script checks the shell scripts, builds a universal binary (Apple Silicon + Intel) and packages `mac-initial-setup.tar.gz`. `install.sh` always downloads the latest release.
+The release script checks the shell scripts, builds a universal binary (Apple Silicon + Intel) and packages `mac-initial-setup.tar.gz`. The one-line installer always downloads `main` directly.
 
 ## Make it yours
 
@@ -117,7 +127,7 @@ Actions are plain shell commands. The available helpers are `cask`, `formula`, `
 - Changing Safari settings requires **Full Disk Access** for your terminal (System Settings → Privacy & Security). The script opens that pane when it needs it.
 - Trackpad, scrolling and key repeat changes take effect after you log out and back in.
 - Some steps can't be scripted, such as signing in to 1Password or enabling a browser extension. These are listed at the end of the run.
-- The app is not notarized. That's not a problem with the `curl` one-liner, because files downloaded with curl are not quarantined. If you download the release in a browser instead, right-click the app and choose Open the first time.
+- The app is not notarized. That's not a problem with the `curl` one-liner, because files downloaded with curl are not quarantined. If you download the binary in a browser instead, right-click the app and choose Open the first time.
 
 ## Privacy and security
 

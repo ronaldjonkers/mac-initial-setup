@@ -3,8 +3,8 @@
 #
 #   ./scripts/release.sh v0.2.0          build, package, tag and upload
 #   ./scripts/release.sh --build-only    only build dist/mac-initial-setup.tar.gz
-#   ./scripts/release.sh --install       build and install it to ~/.mac-initial-setup, like the
-#                                        one-liner does (refuses while a run from there is going)
+#   ./scripts/release.sh --install       build and install it to ~/.mac-initial-setup
+#                                        (refuses while a run from there is going)
 #
 # Needs Rust (rustup.rs) and, for publishing, the GitHub CLI (`brew install gh`, `gh auth login`).
 set -euo pipefail

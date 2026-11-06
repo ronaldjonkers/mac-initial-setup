@@ -3,9 +3,9 @@
 #
 #   curl -fsSL https://raw.githubusercontent.com/ronaldjonkers/mac-initial-setup/main/install.sh | bash
 #
-# Downloads the latest release (desktop app + scripts) to ~/.mac-initial-setup and opens the app.
+# Downloads the main branch (desktop app + scripts) to ~/.mac-initial-setup and opens the app.
 # Add "-s -- --tui" to use the terminal checklist instead:  … | bash -s -- --tui
-set -e
+set -euo pipefail
 
 REPO=${MAC_SETUP_REPO:-ronaldjonkers/mac-initial-setup}
 DEST="$HOME/.mac-initial-setup"
@@ -21,21 +21,28 @@ tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
 echo "› Downloading mac-initial-setup…"
-if curl -fsSL "https://github.com/$REPO/releases/latest/download/mac-initial-setup.tar.gz" -o "$tmp/release.tar.gz"; then
-  tar -xzf "$tmp/release.tar.gz" -C "$tmp"
-  src="$tmp/mac-initial-setup"
-else
-  # No release yet: use the scripts from the main branch (terminal checklist only).
-  echo "  (no release found, using the main branch)"
-  curl -fsSL "https://github.com/$REPO/archive/refs/heads/main.tar.gz" | tar -xz -C "$tmp"
-  src=$(find "$tmp" -maxdepth 1 -type d -name 'mac-initial-setup*' | head -1)
-  TUI=1
+curl -fsSL "https://github.com/$REPO/archive/refs/heads/main.tar.gz" -o "$tmp/source.tar.gz"
+tar -xzf "$tmp/source.tar.gz" -C "$tmp"
+src="$tmp/${REPO##*/}-main"
+[ -f "$src/setup.sh" ] && [ -x "$src/bin/mac-setup" ] || {
+  echo "The main branch is missing setup.sh or the desktop app binary." >&2
+  exit 1
+}
+
+if pgrep -f "$DEST/(bin/mac-setup|setup.sh)" >/dev/null; then
+  echo "A setup run from $DEST is still active. Try again when it finishes." >&2
+  exit 1
 fi
 
-rm -rf "$DEST"
-mv "$src" "$DEST"
+if [ -e "$DEST" ]; then mv "$DEST" "$tmp/previous"; fi
+if ! mv "$src" "$DEST"; then
+  [ ! -e "$tmp/previous" ] || mv "$tmp/previous" "$DEST"
+  exit 1
+fi
+rm -rf "$tmp"
+trap - EXIT
 
-if [ "$TUI" = 0 ] && [ -x "$DEST/bin/mac-setup" ]; then
+if [ "$TUI" = 0 ]; then
   echo "› Opening the app…"
   exec "$DEST/bin/mac-setup" ${ARGS[@]+"${ARGS[@]}"}
 fi
