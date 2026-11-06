@@ -235,6 +235,16 @@ install_grok() {
   check_cmd grok "$(brew --prefix)/bin/grok"
 }
 
+install_northmail() {
+  if app_exists Northmail; then ok "Northmail already installed (it updates itself)"; return 0; fi
+  local version url
+  version=$(curl -fsSL https://binadit.work/northmail/updates/macos/latest.json |
+    sed -n 's/^[[:space:]]*"version": "\([0-9][0-9.]*\)".*/\1/p' | head -1) || return 1
+  [ -n "$version" ] || { err "Could not read the latest Northmail version"; return 1; }
+  url="https://binadit.work/northmail/updates/macos/releases/$version/Northmail_${version}_universal.dmg"
+  install_from_url Northmail "$url"
+}
+
 # The alias has the same name as the executable. `command` bypasses alias expansion.
 ai_yolo_aliases() {
   zshrc_add "alias claude='command claude --dangerously-skip-permissions'"

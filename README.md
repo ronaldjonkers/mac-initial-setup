@@ -52,11 +52,11 @@ Items marked ○ are off by default.
 
 - **Core**: Homebrew + Command Line Tools, shell PATH setup
 - **Browsers**: Firefox, Brave, Chrome
-- **1Password**: app, CLI, extensions for Safari, Chrome, Brave and Firefox, and a guided setup for Touch ID, CLI integration and the SSH agent
+- **1Password**: app, CLI, extensions for Chrome, Brave and Firefox (Safari optional), and a guided setup for Touch ID, CLI integration and the SSH agent
 - **SSH**: `~/.ssh/config` with your username (`Host * / User / UseKeychain`), plus your key restored from 1Password with its passphrase in the Keychain, or ○ the 1Password SSH agent. See [docs/1password-ssh.md](docs/1password-ssh.md).
-- **Communication**: WhatsApp, Telegram
+- **Communication**: WhatsApp, Telegram, Northmail
 - **Remote access**: Jump Desktop, Jump Desktop Connect, Termius, Windows App
-- **Productivity**: TextSniper, [SpanWise](https://spanwise.pro), [MoreDisplays](https://moredisplays.com), [ClipLedger](https://clipledger.app) (latest release from their update feeds; SpanWise and ClipLedger are started right away and open at login), [AppCleaner](https://freemacsoft.net/appcleaner/), ○ Raycast, ○ Maccy, ○ Stats, ○ AdGuard Mini, ○ Logi Options+
+- **Productivity**: [binadit Drive](https://binadit.work/en/downloads/), TextSniper, [SpanWise](https://spanwise.pro), [MoreDisplays](https://moredisplays.com), [ClipLedger](https://clipledger.app) (latest release from their update feeds; SpanWise and ClipLedger are started right away and open at login), [AppCleaner](https://freemacsoft.net/appcleaner/), ○ Raycast, ○ Maccy, ○ Stats, ○ AdGuard Mini, ○ Logi Options+
 - **Editors**: TextMate as the default app for text and code files (txt, md, json, php, html, css, js and about 30 more, without a confirmation dialog per type; active after you log out and back in) and the `mate` command; ○ VS Code
 - **AI apps**: ChatGPT, Claude, Kimi and Grok Bot desktop apps
 - **Terminal tools**: git, gh, wget, telnet, jq, ripgrep, tree, htop, btop, fd, nmap, iperf3, HTTPie, watch, ffmpeg, `locate` (index built right away), [Mole](https://github.com/tw93/mole); ○ mtr, yq, fzf, bat, tldr, tmux, ImageMagick (`netstat` and `nc` come with macOS)

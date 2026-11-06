@@ -36,6 +36,7 @@ item ssh-1p-agent      off "Use the 1Password SSH agent (Touch ID per use)" "ssh
 section "Communication"
 item whatsapp          on  "WhatsApp"           "appstore 310633997 WhatsApp" "" "https://whatsapp.com"
 item telegram          on  "Telegram"           "appstore 747648890 Telegram" "" "https://telegram.org"
+item northmail         on  "Northmail"          "install_northmail" "Latest signed macOS release from Binadit" "https://binadit.work/en/downloads/"
 
 section "Remote access"
 item jump-desktop      on  "Jump Desktop (client)"         "appstore 524141863 'Jump Desktop'" "" "https://jumpdesktop.com"
@@ -44,6 +45,7 @@ item termius           on  "Termius"            "appstore 1176074088 Termius" ""
 item windows-app       on  "Windows App (Remote Desktop)"  "appstore 1295203466 'Windows App'" "" "https://microsoft.com"
 
 section "Productivity"
+item binadit-drive     on  "binadit Drive"      "sparkle_app 'binadit Drive' https://binadit.work/drive/updates/macos/appcast.xml" "Latest macOS release from Binadit" "https://binadit.work/en/downloads/"
 item textsniper        on  "TextSniper"         "appstore 1528890965 TextSniper" "" "https://textsniper.app"
 item spanwise          on  "SpanWise (latest)"  "sparkle_app SpanWise https://spanwise.pro/appcast.xml && autostart SpanWise" "Window manager – starts now and at login" "https://spanwise.pro"
 item moredisplays      on  "MoreDisplays (latest)" "sparkle_app MoreDisplays https://moredisplays.com/appcast.xml" "Display setups & virtual displays – moredisplays.com" "https://moredisplays.com"
