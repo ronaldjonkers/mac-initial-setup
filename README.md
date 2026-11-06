@@ -95,7 +95,7 @@ Releases are built on your own Mac, no CI needed:
 ```sh
 ./scripts/release.sh --build-only   # build + package into dist/
 ./scripts/release.sh --install      # build and install to ~/.mac-initial-setup, like the one-liner (for testing)
-./scripts/release.sh v0.2.0         # also tag, push and upload as a GitHub release (needs `gh auth login`)
+./scripts/release.sh v0.2.2         # also tag, push and upload as a GitHub release (needs `gh auth login`)
 ```
 
 The script checks the shell scripts, builds a universal binary (Apple Silicon + Intel) and packages `mac-initial-setup.tar.gz`. `install.sh` always downloads the latest release.
