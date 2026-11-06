@@ -228,6 +228,47 @@ install_kimi() {
   check_cmd kimi "$HOME/.local/bin/kimi"
 }
 
+install_grok() {
+  if command -v grok >/dev/null 2>&1; then ok "Grok CLI already installed"; return 0; fi
+  ensure_tool npm node || return 1
+  run npm install -g @xai-official/grok || return 1
+  check_cmd grok "$(brew --prefix)/bin/grok"
+}
+
+# The alias has the same name as the executable. `command` bypasses alias expansion.
+ai_yolo_aliases() {
+  zshrc_add "alias claude='command claude --dangerously-skip-permissions'"
+  zshrc_add "alias codex='command codex --yolo'"
+  zshrc_add "alias kimi='command kimi --yolo'"
+  zshrc_add "alias gemini='command gemini --yolo'"
+  zshrc_add "alias grok='command grok --yolo'"
+}
+
+# AppleScript apps let terminal-only agents live in the Dock. Only create a
+# launcher when its CLI was installed, and leave unrelated apps untouched.
+ai_dock_launchers() {
+  local cli label dest
+  for cli in claude codex kimi gemini grok; do
+    case $cli in
+      claude) label='Claude Code CLI' ;;
+      codex) label='Codex CLI' ;;
+      kimi) label='Kimi CLI' ;;
+      gemini) label='Gemini CLI' ;;
+      grok) label='Grok CLI' ;;
+    esac
+    if [ "$DRY_RUN" = 0 ] && ! command -v "$cli" >/dev/null 2>&1 && [ ! -x "$HOME/.local/bin/$cli" ]; then
+      warn "$cli is missing; skipping its Dock launcher"
+      continue
+    fi
+    dest="$HOME/Applications/$label.app"
+    run mkdir -p "$HOME/Applications" || return 1
+    run osacompile -o "$dest" \
+      -e 'tell application "Terminal"' \
+      -e "do script \"exec zsh -lic '$cli'\"" \
+      -e 'end tell' || return 1
+  done
+}
+
 install_xcode() {
   appstore 497799835 Xcode || return 1
   [ "$DRY_RUN" = 1 ] || app_exists Xcode || return 0

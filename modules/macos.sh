@@ -3,6 +3,7 @@
 
 # ---------------------------------------------------------------- Finder ---
 finder_hidden_files()  { dw com.apple.finder AppleShowAllFiles -bool true; needs_restart Finder; }
+dialogs_hidden_files() { dw NSGlobalDomain AppleShowAllFiles -bool true; }
 finder_extensions()    { dw NSGlobalDomain AppleShowAllExtensions -bool true; needs_restart Finder; }
 finder_bars()          { dw com.apple.finder ShowPathbar -bool true; dw com.apple.finder ShowStatusBar -bool true; needs_restart Finder; }
 finder_posix_title()   { dw com.apple.finder _FXShowPosixPathInTitle -bool true; needs_restart Finder; }
@@ -22,6 +23,24 @@ dock_fixed_spaces()    { dw com.apple.dock mru-spaces -bool false; needs_restart
 dock_autohide()        { dw com.apple.dock autohide -bool true; dw com.apple.dock autohide-delay -float 0; dw com.apple.dock autohide-time-modifier -float 0.4; needs_restart Dock; }
 dock_minimize_app()    { dw com.apple.dock minimize-to-application -bool true; needs_restart Dock; }
 desktop_no_click_reveal() { dw com.apple.WindowManager EnableStandardClickToShowDesktop -bool false; }
+desktop_stacks() { dw com.apple.finder DesktopViewSettings -dict-add GroupBy -string Kind; needs_restart Finder; }
+
+# WidgetKit stores placements in a private binary format. Clear the existing
+# configuration, enable desktop widgets, then ask the user to place Apple's two
+# widgets through the supported gallery.
+desktop_widgets() {
+  local marker="$HOME/Library/Application Support/mac-initial-setup/widgets-cleared"
+  if [ -f "$marker" ]; then
+    ok "Desktop widgets were already cleared on an earlier run"
+    return 0
+  fi
+  run defaults write com.apple.notificationcenterui widgets -dict || return 1
+  dw com.apple.WindowManager StandardHideWidgets -bool false || return 1
+  needs_restart NotificationCenter
+  run mkdir -p "$(dirname "$marker")" || return 1
+  run touch "$marker" || return 1
+  follow_up "On the desktop, right-click → Edit Widgets; add Calendar and Reminders. macOS does not expose a supported command to place them automatically."
+}
 
 # ------------------------------------------------------ Keyboard & input ---
 kb_fast_repeat()       { dw NSGlobalDomain KeyRepeat -int 2; dw NSGlobalDomain InitialKeyRepeat -int 15; dw NSGlobalDomain ApplePressAndHoldEnabled -bool false; follow_up "Log out and back in for the key repeat settings."; }
@@ -148,7 +167,7 @@ safari_status_bar() { safari_prepare || return 1; dw com.apple.Safari ShowOverla
 safari_privacy()    { safari_prepare || return 1; dw com.apple.Safari UniversalSearchEnabled -bool false; dw com.apple.Safari SuppressSearchSuggestions -bool true; }
 
 # ------------------------------------------------------------- Dock apps ---
-# Find an app bundle by name in the usual places (Safari lives in a cryptex on recent macOS).
+# Find an app bundle by name in the usual places.
 find_app() {
   local d
   for d in /Applications /System/Applications /System/Applications/Utilities \

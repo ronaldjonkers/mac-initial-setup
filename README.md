@@ -1,6 +1,6 @@
 # mac-initial-setup
 
-Set up a fresh Mac in one go: apps, developer tools, 1Password with SSH keys, and a long list of Finder, Dock, trackpad and Safari settings. A desktop app shows everything that can be installed, with icons and on/off switches. The defaults are an opinionated starting point: switch off what you don't want, fill in your own name and username, and click **Install**.
+Set up a fresh Mac in one go: apps, developer tools, 1Password with SSH keys, and Finder, Dock and trackpad settings. A desktop app shows everything that can be installed, with icons and on/off switches. The defaults are an opinionated starting point: switch off what you don't want, fill in your own name and username, and click **Install**.
 
 Free and open source (MIT). It runs on a brand-new Mac with nothing installed first.
 
@@ -58,15 +58,16 @@ Items marked ○ are off by default.
 - **Remote access**: Jump Desktop, Jump Desktop Connect, Termius, Windows App
 - **Productivity**: TextSniper, [SpanWise](https://spanwise.pro), [MoreDisplays](https://moredisplays.com), [ClipLedger](https://clipledger.app) (latest release from their update feeds; SpanWise and ClipLedger are started right away and open at login), [AppCleaner](https://freemacsoft.net/appcleaner/), ○ Raycast, ○ Maccy, ○ Stats, ○ AdGuard Mini, ○ Logi Options+
 - **Editors**: TextMate as the default app for text and code files (txt, md, json, php, html, css, js and about 30 more, without a confirmation dialog per type; active after you log out and back in) and the `mate` command; ○ VS Code
-- **AI apps**: ChatGPT, Claude and Kimi desktop apps
+- **AI apps**: ChatGPT, Claude, Kimi and Grok Bot desktop apps
 - **Terminal tools**: git, gh, wget, telnet, jq, ripgrep, tree, htop, btop, fd, nmap, iperf3, HTTPie, watch, ffmpeg, `locate` (index built right away), [Mole](https://github.com/tw93/mole); ○ mtr, yq, fzf, bat, tldr, tmux, ImageMagick (`netstat` and `nc` come with macOS)
 - **Programming languages**: PHP (latest, ○ 8.4, 8.3, 8.2 side by side), Composer, Node.js, uv (Python), Go, Rust, MySQL client, PostgreSQL client, SQLite; ○ pnpm, Bun, Deno, Ruby, Redis
-- **Developer tools**: git config, Claude Code, Codex CLI, Kimi CLI, Sequel Ace, Xcode, TestFlight; ○ SQLPro for Postgres, OrbStack, Ghostty, iTerm2
-- **Finder**: hidden files, extensions, path and status bar, full path in the title, list view, folders first, search the current folder, ~/Library visible, no .DS_Store files on network or USB drives
-- **Dock**: cleaned up to a short list of apps (editable), no recent apps, Spaces stay in place, clicking the wallpaper doesn't hide your windows
+- **Developer tools**: git config, Claude Code, Codex CLI, Kimi CLI, Gemini CLI, Grok CLI, same-name YOLO aliases for all five, Sequel Ace, Xcode, TestFlight; ○ SQLPro for Postgres, OrbStack, Ghostty, iTerm2
+- **Finder**: hidden files (also in the Open and Save dialogs of every app), extensions, path and status bar, full path in the title, list view, folders first, search the current folder, ~/Library visible, no .DS_Store files on network or USB drives
+- **Dock**: Jump Desktop, AI desktop apps and Terminal launchers for the five AI CLIs; no Safari, no recent apps, Spaces stay in place; desktop icons use Stacks
+- **Widgets**: clears existing widgets and enables desktop widgets. After setup, use **Edit Widgets** on the desktop to place Calendar and Reminders; macOS does not offer a supported command to position built-in widgets.
 - **Keyboard & trackpad**: three finger drag, natural scrolling off, tap to click, fast key repeat, no smart quotes
 - **Screenshots**: copied to the clipboard instead of saved as a file; files you do save (⌘⇧5) go to ~/Screenshots
-- **Safari**: doesn't open downloads automatically, Develop menu, full URL, status bar, no search suggestions sent to Apple
+- **Safari**: all Safari-specific items are off by default, including the 1Password Safari extension
 - **System**: Touch ID for `sudo`, expanded save dialogs, save to disk instead of iCloud, computer name (set when you fill it in); ○ firewall
 
 App Store apps are installed with [`mas`](https://github.com/mas-cli/mas). Sign in to the App Store before you start.
