@@ -181,12 +181,15 @@ autostart() {
 # Point the php command at the version chosen in the php_default setting. Runs at the end, and
 # only when one of the PHP items was part of this run.
 php_set_default() {
-  selected php || selected php84 || selected php83 || selected php82 || return 0
-  local v f other
+  selected php || selected php85 || selected php84 || selected php83 || selected php82 || return 0
+  local v f other real
   v=$(cfg php_default); v=${v#php}; v=${v#@}; v=$(printf '%s' "$v" | tr -d ' ')
-  case $v in ""|latest) f=php ;; 8.[0-9]) f=php@$v ;; *) warn "Unknown PHP version '$v' – use latest, 8.4, 8.3 or 8.2"; return 1 ;; esac
+  case $v in ""|latest) f=php ;; 8.[0-9]) f=php@$v ;; *) warn "Unknown PHP version '$v' – use latest, 8.5, 8.4, 8.3 or 8.2"; return 1 ;; esac
   heading "PHP default"
   ensure_brew || return 1
+  # php@8.5 is Homebrew's alias for php while 8.5 is the newest version: use the real formula name.
+  real=$(brew info "$f" 2>/dev/null | sed -n '1s/^==> \([^:]*\):.*/\1/p')
+  [ -n "$real" ] && f=$real
   if [ "$DRY_RUN" = 0 ] && ! brew list --formula "$f" >/dev/null 2>&1; then
     warn "PHP $v isn't installed – tick it in Programming languages"; return 1
   fi

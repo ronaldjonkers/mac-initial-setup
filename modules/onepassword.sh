@@ -25,34 +25,26 @@ op_chromium_ext() {
 op_ext_chrome() { op_chromium_ext "Google Chrome" "Google/Chrome"; }
 op_ext_brave()  { op_chromium_ext "Brave" "BraveSoftware/Brave-Browser"; }
 
-op_ext_firefox() {
+# Firefox reads enterprise policies from /Library/Preferences/org.mozilla.firefox.plist. Never
+# write policies.json into Firefox.app: any extra file breaks the app's code signature, and macOS
+# then refuses to open the freshly downloaded app ("Firefox is damaged and can't be opened").
+OP_FIREFOX_PREFS=/Library/Preferences/org.mozilla.firefox
+
+# Older versions of this setup put policies.json inside the app. Remove it so the signature is valid again.
+op_firefox_repair() {
   local dist="/Applications/Firefox.app/Contents/Resources/distribution"
-  require_app Firefox || return 1
-  if [ -f "$dist/policies.json" ] && ! grep -q 1password "$dist/policies.json"; then
-    warn "$dist/policies.json already exists – not overwriting it"
-    run open "https://addons.mozilla.org/firefox/addon/1password-x-password-manager/"
-    follow_up "Install the 1Password add-on in Firefox (page opened)."
-    return 0
-  fi
-  local json
-  json=$(cat <<EOF
-{
-  "policies": {
-    "ExtensionSettings": {
-      "$OP_FIREFOX_EXT_ID": {
-        "installation_mode": "normal_installed",
-        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi"
-      }
-    }
-  }
+  [ -f "$dist/policies.json" ] && grep -q "$OP_FIREFOX_EXT_ID" "$dist/policies.json" || return 0
+  run sudo rm -f "$dist/policies.json" || return 1
+  run sudo rmdir "$dist" 2>/dev/null
+  ok "Removed policies.json from Firefox.app (it made macOS report Firefox as damaged)"
 }
-EOF
-)
-  if [ "$DRY_RUN" = 1 ]; then run tee "$dist/policies.json"; return 0; fi
-  if mkdir -p "$dist" 2>/dev/null && printf '%s\n' "$json" >"$dist/policies.json" 2>/dev/null; then :
-  else
-    sudo mkdir -p "$dist" && printf '%s\n' "$json" | sudo tee "$dist/policies.json" >/dev/null || return 1
-  fi
+
+op_ext_firefox() {
+  require_app Firefox || return 1
+  op_firefox_repair || return 1
+  run sudo defaults write "$OP_FIREFOX_PREFS" EnterprisePoliciesEnabled -bool true || return 1
+  run sudo defaults write "$OP_FIREFOX_PREFS" ExtensionSettings \
+    "<dict><key>$OP_FIREFOX_EXT_ID</key><dict><key>installation_mode</key><string>normal_installed</string><key>install_url</key><string>https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi</string></dict></dict>" || return 1
   ok "Firefox will install 1Password on next launch"
 }
 

@@ -34,12 +34,17 @@ desktop_widgets() {
     ok "Desktop widgets were already cleared on an earlier run"
     return 0
   fi
-  run defaults write com.apple.notificationcenterui widgets -dict || return 1
   dw com.apple.WindowManager StandardHideWidgets -bool false || return 1
-  needs_restart NotificationCenter
-  run mkdir -p "$(dirname "$marker")" || return 1
-  run touch "$marker" || return 1
-  follow_up "On the desktop, right-click → Edit Widgets; add Calendar and Reminders. macOS does not expose a supported command to place them automatically."
+  # Notification Center's preferences live in its sandbox container; without Full Disk Access
+  # for the terminal macOS refuses the write. Then the widgets are removed by hand instead.
+  if run defaults write com.apple.notificationcenterui widgets -dict 2>/dev/null; then
+    needs_restart NotificationCenter
+    run mkdir -p "$(dirname "$marker")" && run touch "$marker"
+    follow_up "On the desktop, right-click → Edit Widgets; add Calendar and Reminders. macOS does not expose a supported command to place them automatically."
+  else
+    warn "macOS doesn't allow clearing the widgets from the terminal – desktop widgets are switched on"
+    follow_up "On the desktop, right-click → Edit Widgets: remove the widgets you don't want, then add Calendar and Reminders."
+  fi
 }
 
 # ------------------------------------------------------ Keyboard & input ---
@@ -181,6 +186,8 @@ find_app() {
 dock_clean() {
   local path url name names missing=() old_ifs=$IFS
   IFS=, names=($(cfg dock_apps)); IFS=$old_ifs
+  # Safari always stays in the Dock, first, unless the list places it somewhere itself.
+  case ",$(cfg dock_apps | tr -d ' ')," in *,Safari,*) ;; *) names=(Safari "${names[@]}") ;; esac
   run defaults write com.apple.dock persistent-apps -array
   for name in "${names[@]}"; do
     name=$(printf '%s' "$name" | sed -e 's/^ *//' -e 's/ *$//')

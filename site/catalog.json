@@ -186,6 +186,26 @@
   },
   {
     "kind": "section",
+    "title": "Music"
+  },
+  {
+    "kind": "item",
+    "id": "spotify",
+    "on": true,
+    "label": "Spotify",
+    "desc": "",
+    "url": "https://spotify.com"
+  },
+  {
+    "kind": "item",
+    "id": "sonos",
+    "on": true,
+    "label": "Sonos",
+    "desc": "Controller app for Sonos speakers",
+    "url": "https://sonos.com"
+  },
+  {
+    "kind": "section",
     "title": "Remote access"
   },
   {
@@ -223,6 +243,22 @@
   {
     "kind": "section",
     "title": "Productivity"
+  },
+  {
+    "kind": "item",
+    "id": "filepurser",
+    "on": true,
+    "label": "FilePurser (latest)",
+    "desc": "Installs as Purser – updates itself",
+    "url": "https://filepurser.com"
+  },
+  {
+    "kind": "item",
+    "id": "adobe-reader",
+    "on": true,
+    "label": "Adobe Acrobat Reader",
+    "desc": "Free PDF reader from Adobe",
+    "url": "https://adobe.com/acrobat/pdf-reader.html"
   },
   {
     "kind": "item",
@@ -375,6 +411,14 @@
     "label": "Claude",
     "desc": "Desktop app from Anthropic",
     "url": "https://claude.ai"
+  },
+  {
+    "kind": "item",
+    "id": "gemini-desktop",
+    "on": true,
+    "label": "Gemini",
+    "desc": "Desktop app from Google",
+    "url": "https://gemini.google/desktop/"
   },
   {
     "kind": "item",
@@ -595,9 +639,9 @@
   {
     "kind": "setting",
     "key": "php_default",
-    "value": "latest",
+    "value": "8.5",
     "label": "PHP version for the php command",
-    "desc": "latest, 8.4, 8.3 or 8.2 – that version must be ticked below"
+    "desc": "latest, 8.5, 8.4, 8.3 or 8.2 – that version must be ticked below"
   },
   {
     "kind": "item",
@@ -605,6 +649,14 @@
     "on": true,
     "label": "PHP (latest)",
     "desc": "The php command in your terminal",
+    "url": "https://www.php.net"
+  },
+  {
+    "kind": "item",
+    "id": "php85",
+    "on": true,
+    "label": "PHP 8.5",
+    "desc": "The default php; same as the latest until a newer PHP comes out",
     "url": "https://www.php.net"
   },
   {
@@ -851,6 +903,14 @@
   },
   {
     "kind": "item",
+    "id": "nexus",
+    "on": false,
+    "label": "Nexus (local sites, PHP, databases)",
+    "desc": "Apple silicon, macOS 27+ – updates itself",
+    "url": "https://github.com/NexusLocal/nexus"
+  },
+  {
+    "kind": "item",
     "id": "orbstack",
     "on": false,
     "label": "OrbStack (Docker)",
@@ -996,14 +1056,14 @@
   {
     "kind": "setting",
     "key": "dock_apps",
-    "value": "Messages, Calendar, Terminal, Jump Desktop, Notes, System Settings, ChatGPT, Claude, Kimi, Grok Bot, Claude Code CLI, Codex CLI, Kimi CLI, Gemini CLI, Grok CLI",
-    "label": "Dock apps (comma separated)",
-    "desc": "Installed apps and generated CLI launchers; Finder and Trash stay"
+    "value": "Safari, Firefox, Google Chrome, Brave Browser, Messages, Calendar, Reminders, Notes, 1Password, ChatGPT, Claude, Gemini, Kimi, Grok Bot, Terminal, Termius, TextMate, Jump Desktop, Windows App, System Settings",
+    "label": "Dock apps (comma separated, in this order)",
+    "desc": "Desktop apps only; Finder and Trash stay"
   },
   {
     "kind": "item",
     "id": "ai-dock-launchers",
-    "on": true,
+    "on": false,
     "label": "Create Dock launchers for AI CLIs",
     "desc": "Opens each CLI in Terminal",
     "url": ""
@@ -1167,7 +1227,7 @@
   {
     "kind": "item",
     "id": "safari-downloads",
-    "on": false,
+    "on": true,
     "label": "Don't open 'safe' files after downloading",
     "desc": "Needs Full Disk Access for your terminal",
     "url": ""
@@ -1175,7 +1235,7 @@
   {
     "kind": "item",
     "id": "safari-dev",
-    "on": false,
+    "on": true,
     "label": "Develop menu + Web Inspector",
     "desc": "",
     "url": ""
@@ -1183,7 +1243,7 @@
   {
     "kind": "item",
     "id": "safari-full-url",
-    "on": false,
+    "on": true,
     "label": "Show full website address",
     "desc": "",
     "url": ""
@@ -1191,7 +1251,7 @@
   {
     "kind": "item",
     "id": "safari-status-bar",
-    "on": false,
+    "on": true,
     "label": "Status bar (link preview) and classic tab bar",
     "desc": "",
     "url": ""
@@ -1199,7 +1259,7 @@
   {
     "kind": "item",
     "id": "safari-privacy",
-    "on": false,
+    "on": true,
     "label": "Don't send search queries to Apple",
     "desc": "",
     "url": ""
